@@ -18,7 +18,8 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 			card->setPixmap(QPixmap(plantClass->classInfo(plantClass->indexOfClassInfo("staticImageSource")).value()).scaledToHeight(31, Qt::SmoothTransformation));
 	}
 
-	mapSize = QSize(9, 5);
+	mGameState = new QObject(this);
+	mGameState->setProperty("mapSize", QSize(9, 5));
 
 	registerInterpolator();
 	onAnimationFinished();  // Activate first animation
@@ -70,6 +71,7 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 		{
 			if (!property("selectedPlant").isNull())
 			{
+				QSize mapSize = mGameState->property("mapSize").toSize();
 				QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());
 				QPoint relativePos = ui->widgetLawnArea->mapFrom(this, ev->pos());
 				if (relativePos.x() >= ui->widgetLawnArea->width())
@@ -77,11 +79,10 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 				if (relativePos.y() >= ui->widgetLawnArea->height())
 					relativePos.setY(relativePos.y() - 1);
 
-				Plant *newPlant = dynamic_cast<Plant *>(GetPlantClassByID(property("selectedPlant").toInt())->newInstance());
-				QVariant newPlantVariant;
-				newPlantVariant.setValue(newPlant);
-				plantsData.append(newPlantVariant);
-				setProperty("plants", plantsData);
+				QPointer<Plant> newPlant = dynamic_cast<Plant *>(GetPlantClassByID(property("selectedPlant").toInt())->newInstance());
+				QList<QVariant> plantData(property("plants").toList());
+				plantData.append(QVariant::fromValue(newPlant));
+				setProperty("plants", plantData);
 
 				QLabel *plantMovieLabel = createDynamicImage(newPlant->imgSrc(), ui->widgetLawnArea);
 				plantMovieLabel->resize(cellSize);
@@ -98,6 +99,7 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 
 void PlayingInterface::mouseMoveEvent(QMouseEvent *ev)
 {
+	Q_UNUSED(ev)
 }
 
 void PlayingInterface::on_buttonMenu_clicked()

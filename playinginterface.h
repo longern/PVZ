@@ -35,8 +35,8 @@ private slots:
 private:
 	Ui::PlayForm *ui;
 
+	QObject *mGameState;
 	QSize mapSize;
-	QList<QVariant> plantsData;  // QVariant tend to be QPointer<Plant>
 
 	void registerInterpolator();
 };
