@@ -2,14 +2,14 @@
 #include "playinginterface.h"
 #include <QPropertyAnimation>
 
-QVariant qStringInterpolator(const bool &start, const bool &end, qreal progress)
+QVariant boolInterpolator(const bool &start, const bool &end, qreal progress)
 {
 	return progress < 1. ? start : end;
 }
 
 void PlayingInterface::registerInterpolator()
 {
-	qRegisterAnimationInterpolator<bool>(qStringInterpolator);
+	qRegisterAnimationInterpolator<bool>(boolInterpolator);
 }
 
 void PlayingInterface::onAnimationFinished()

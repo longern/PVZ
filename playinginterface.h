@@ -36,7 +36,6 @@ private:
 	Ui::PlayForm *ui;
 
 	QObject *mGameState;
-	QSize mapSize;
 
 	void registerInterpolator();
 };
