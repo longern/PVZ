@@ -49,7 +49,8 @@ FORMS    += \
     playform.ui
 
 RESOURCES += \
-    image.qrc
+    image.qrc \
+    audio.qrc
 
 TRANSLATIONS += \
 	zh_CN.ts

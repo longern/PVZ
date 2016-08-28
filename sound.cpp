@@ -5,6 +5,7 @@ Sound *Sound::sInstance = nullptr;
 Sound::Sound()
 {
 	player = new QMediaPlayer(this);
+	player->setVolume(100);
 }
 
 Sound *Sound::ins()
