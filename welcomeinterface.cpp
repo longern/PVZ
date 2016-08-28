@@ -1,5 +1,6 @@
 #include "ui_welcomeform.h"
 #include "welcomeinterface.h"
+#include "sound.h"
 #include <QInputDialog>
 
 WelcomeInterface::WelcomeInterface(QWidget *parent) :
@@ -11,6 +12,7 @@ WelcomeInterface::WelcomeInterface(QWidget *parent) :
 	ui->buttonBeginSurvival->setMask(QPixmap(QStringLiteral(":/interface/images/interface/SelectorScreenSurvival_32.png")).mask());
 	ui->buttonBeginChallenge->setMask(QPixmap(QStringLiteral(":/interface/images/interface/SelectorScreenChallenges_32.png")).mask());
 	ui->buttonChangeUser->setMask(QPixmap(QStringLiteral(":/interface/images/interface/SelectorScreen_WoodSign2_32.png")).mask());
+	Sound::ins()->play(":/music/audio/Faster.ogg");
 }
 
 void WelcomeInterface::on_buttonBeginAdventure_clicked()
