@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/interface">
+        <file>images/interface/Surface.png</file>
+        <file>images/interface/SmallLogo.png</file>
+        <file>images/interface/SelectorScreenStartAdventure_32.png</file>
+        <file>images/interface/SelectorScreenChallenges_32.png</file>
+        <file>images/interface/SelectorScreenSurvival_32.png</file>
+        <file>images/interface/background1.jpg</file>
+        <file>images/interface/Button.png</file>
+        <file>images/interface/SelectorScreen_WoodSign2_32.png</file>
+        <file>images/interface/Shovel.png</file>
+        <file>images/interface/Sun.gif</file>
+        <file>images/interface/ZombiesWon.png</file>
+        <file>images/interface/SelectorScreen_WoodSign1_32.png</file>
+        <file>images/interface/cardback.png</file>
+        <file>images/interface/Plant_Card.png</file>
+        <file>images/interface/StartPlant.png</file>
+        <file>images/interface/StartReady.png</file>
+        <file>images/interface/StartSet.png</file>
+    </qresource>
+    <qresource prefix="/plants">
+        <file>images/Plants/Peashooter/Peashooter.gif</file>
+        <file>images/Plants/WallNut/WallNut.gif</file>
+        <file>images/Plants/SunFlower/SunFlower1.gif</file>
+        <file>images/Plants/WallNut/Wallnut_cracked1.gif</file>
+        <file>images/Plants/WallNut/Wallnut_cracked2.gif</file>
+        <file>images/Plants/SnowPea/SnowPea.gif</file>
+        <file>images/Plants/SnowPea/0.gif</file>
+        <file>images/Plants/Peashooter/0.gif</file>
+        <file>images/Plants/SunFlower/0.gif</file>
+        <file>images/Plants/WallNut/0.gif</file>
+    </qresource>
+    <qresource prefix="/zombies">
+        <file>images/Zombies/Zombie/Zombie.gif</file>
+        <file>images/Zombies/PoleVaultingZombie/PoleVaultingZombie.gif</file>
+        <file>images/Zombies/PoleVaultingZombie/PoleVaultingZombieWalk.gif</file>
+        <file>images/Zombies/BucketheadZombie/BucketheadZombie.gif</file>
+        <file>images/Zombies/BucketheadZombie/BucketheadZombieAttack.gif</file>
+        <file>images/Zombies/Zombie/ZombieAttack.gif</file>
+        <file>images/Zombies/PoleVaultingZombie/PoleVaultingZombieAttack.gif</file>
+    </qresource>
+</RCC>

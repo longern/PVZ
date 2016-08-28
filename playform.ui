@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlayForm</class>
+ <widget class="QWidget" name="PlayForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="mouseTracking">
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-repeat: none;
+font-family: &quot;Comic Sans MS&quot;;</string>
+  </property>
+  <widget class="QLabel" name="labelBackground">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1400</width>
+     <height>600</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/interface/images/interface/background1.jpg);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="buttonMenu">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>0</y>
+     <width>115</width>
+     <height>43</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>16</red>
+         <green>191</green>
+         <blue>4</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>16</red>
+         <green>191</green>
+         <blue>4</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="font">
+    <font>
+     <family>Comic Sans MS</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">* { background-image: url(:/interface/images/interface/Button.png); }
+:pressed { border: none; }</string>
+   </property>
+   <property name="text">
+    <string>Menu</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widgetCardBack" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>-85</y>
+     <width>435</width>
+     <height>85</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#widgetCardBack { background-image: url(:/interface/images/interface/cardback.png); }</string>
+   </property>
+   <widget class="QLabel" name="labelSunValue">
+    <property name="geometry">
+     <rect>
+      <x>3</x>
+      <y>59</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Comic Sans MS</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widgetCardArea" native="true">
+    <property name="geometry">
+     <rect>
+      <x>84</x>
+      <y>10</y>
+      <width>335</width>
+      <height>63</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="widgetPlantCard1" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>47</width>
+       <height>63</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#widgetPlantCard1 { background-image: url(:/interface/images/interface/Plant_Card.png); }</string>
+     </property>
+     <widget class="QLabel" name="labelPlantCost1">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>47</y>
+        <width>37</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelPlantAvatar1">
+      <property name="geometry">
+       <rect>
+        <x>9</x>
+        <y>11</y>
+        <width>30</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="widgetPlantCard2" native="true">
+     <property name="geometry">
+      <rect>
+       <x>59</x>
+       <y>0</y>
+       <width>47</width>
+       <height>63</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#widgetPlantCard2 { background-image: url(:/interface/images/interface/Plant_Card.png); }</string>
+     </property>
+     <widget class="QLabel" name="labelPlantCost2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>47</y>
+        <width>37</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelPlantAvatar2">
+      <property name="geometry">
+       <rect>
+        <x>9</x>
+        <y>11</y>
+        <width>30</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="widgetPlantCard3" native="true">
+     <property name="geometry">
+      <rect>
+       <x>115</x>
+       <y>0</y>
+       <width>47</width>
+       <height>63</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#widgetPlantCard3 { background-image: url(:/interface/images/interface/Plant_Card.png); }</string>
+     </property>
+     <widget class="QLabel" name="labelPlantCost3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>47</y>
+        <width>37</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelPlantAvatar3">
+      <property name="geometry">
+       <rect>
+        <x>9</x>
+        <y>11</y>
+        <width>30</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="widgetPlantCard4" native="true">
+     <property name="geometry">
+      <rect>
+       <x>173</x>
+       <y>0</y>
+       <width>47</width>
+       <height>63</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#widgetPlantCard4 { background-image: url(:/interface/images/interface/Plant_Card.png); }</string>
+     </property>
+     <widget class="QLabel" name="labelPlantCost4">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>47</y>
+        <width>37</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelPlantAvatar4">
+      <property name="geometry">
+       <rect>
+        <x>9</x>
+        <y>11</y>
+        <width>30</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="widgetLawnArea" native="true">
+   <property name="geometry">
+    <rect>
+     <x>78</x>
+     <y>85</y>
+     <width>733</width>
+     <height>485</height>
+    </rect>
+   </property>
+   <property name="mouseTracking">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
