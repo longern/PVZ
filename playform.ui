@@ -104,7 +104,7 @@ font-family: &quot;Comic Sans MS&quot;;</string>
     <rect>
      <x>0</x>
      <y>-85</y>
-     <width>435</width>
+     <width>511</width>
      <height>85</height>
     </rect>
    </property>
@@ -310,6 +310,22 @@ font-family: &quot;Comic Sans MS&quot;;</string>
       </property>
      </widget>
     </widget>
+   </widget>
+   <widget class="QLabel" name="labelShovelBack">
+    <property name="geometry">
+     <rect>
+      <x>435</x>
+      <y>0</y>
+      <width>71</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url(:/interface/images/interface/ShovelBack.png);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
    </widget>
   </widget>
   <widget class="QWidget" name="widgetLawnArea" native="true">

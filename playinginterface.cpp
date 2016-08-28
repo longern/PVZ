@@ -78,17 +78,10 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 					relativePos.setY(relativePos.y() - 1);
 
 				Plant *newPlant = dynamic_cast<Plant *>(GetPlantClassByID(property("selectedPlant").toInt())->newInstance());
-				for (int i = 0; i < plantsData.size(); i++)
-					if (plantsData[i] == nullptr)
-					{
-						newPlant->setPlantIndex(i);
-						plantsData[i] = newPlant;
-					}
-				if (newPlant->plantIndex() == -1)
-				{
-					newPlant->setPlantIndex(plantsData.size());
-					plantsData.append(newPlant);
-				}
+				QVariant newPlantVariant;
+				newPlantVariant.setValue(newPlant);
+				plantsData.append(newPlantVariant);
+				setProperty("plants", plantsData);
 
 				QLabel *plantMovieLabel = createDynamicImage(newPlant->imgSrc(), ui->widgetLawnArea);
 				plantMovieLabel->resize(cellSize);

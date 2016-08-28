@@ -36,7 +36,7 @@ private:
 	Ui::PlayForm *ui;
 
 	QSize mapSize;
-	QVector<Plant *> plantsData;
+	QList<QVariant> plantsData;  // QVariant tend to be QPointer<Plant>
 
 	void registerInterpolator();
 };
