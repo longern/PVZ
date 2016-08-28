@@ -28,6 +28,8 @@ public:
 	int cd() { return mCoolDown; }
 	int cost() { return mCost; }
 
+	virtual bool canPlant(QObject *root);
+
 protected:
 	int mPlantIndex;
 	QPoint mPlantPosition;

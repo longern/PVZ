@@ -35,7 +35,7 @@ private slots:
 private:
 	Ui::PlayForm *ui;
 
-	QObject *mGameState;
+	QObject *mGameStatus;
 
 	void registerInterpolator();
 };

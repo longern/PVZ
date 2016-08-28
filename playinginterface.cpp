@@ -18,8 +18,8 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 			card->setPixmap(QPixmap(plantClass->classInfo(plantClass->indexOfClassInfo("staticImageSource")).value()).scaledToHeight(31, Qt::SmoothTransformation));
 	}
 
-	mGameState = new QObject(this);
-	mGameState->setProperty("mapSize", QSize(9, 5));
+	mGameStatus = new QObject(this);
+	mGameStatus->setProperty("mapSize", QSize(9, 5));
 
 	registerInterpolator();
 	onAnimationFinished();  // Activate first animation
@@ -71,23 +71,24 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 		{
 			if (!property("selectedPlant").isNull())
 			{
-				QSize mapSize = mGameState->property("mapSize").toSize();
+				QSize mapSize = mGameStatus->property("mapSize").toSize();
 				QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());
 				QPoint relativePos = ui->widgetLawnArea->mapFrom(this, ev->pos());
-				if (relativePos.x() >= ui->widgetLawnArea->width())
-					relativePos.setX(relativePos.x() - 1);
-				if (relativePos.y() >= ui->widgetLawnArea->height())
-					relativePos.setY(relativePos.y() - 1);
+				QPoint plantPos = QPoint(qMin(relativePos.x() / cellSize.width(), mapSize.width() - 1),
+										 qMin(relativePos.y() / cellSize.height(), mapSize.height() - 1));
 
 				QPointer<Plant> newPlant = dynamic_cast<Plant *>(GetPlantClassByID(property("selectedPlant").toInt())->newInstance());
-				QList<QVariant> plantData(property("plants").toList());
-				plantData.append(QVariant::fromValue(newPlant));
-				setProperty("plants", plantData);
+				newPlant->setPos(plantPos);
+				if (!newPlant->canPlant(mGameStatus))
+					return;
+
+				QList<QVariant> plantsData(mGameStatus->property("plants").toList());
+				plantsData.append(QVariant::fromValue(newPlant));
+				mGameStatus->setProperty("plants", plantsData);
 
 				QLabel *plantMovieLabel = createDynamicImage(newPlant->imgSrc(), ui->widgetLawnArea);
 				plantMovieLabel->resize(cellSize);
-				plantMovieLabel->move(relativePos.x() - relativePos.x() % cellSize.width(),
-									  relativePos.y() - relativePos.y() % cellSize.height());
+				plantMovieLabel->move(plantPos.x() * cellSize.width(), plantPos.y() * cellSize.height());
 				plantMovieLabel->show();
 				setProperty("selectedPlant", QVariant());
 			}
