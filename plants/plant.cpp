@@ -3,7 +3,6 @@
 Plant::Plant(QObject *parent) :
 	QObject(parent)
 {
-	mPlantIndex = -1;
 }
 
 bool Plant::canPlant(QObject *root)
@@ -17,4 +16,14 @@ bool Plant::canPlant(QObject *root)
 				return false;
 	}
 	return true;
+}
+
+void Plant::onPlanted(QObject *root)
+{
+	Q_UNUSED(root)
+}
+
+void Plant::onTimeout(QObject *root)
+{
+	Q_UNUSED(root)
 }

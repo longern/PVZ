@@ -44,6 +44,10 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 
 void PlayingInterface::timerEvent(QTimerEvent *)
 {
+	for (const QVariant &x : mGameStatus->property("plants").toList())
+		(x.value<QPointer<Plant>>())->onTimeout(mGameStatus);
+	for (const QVariant &x : mGameStatus->property("zombies").toList())
+		(x.value<QPointer<Plant>>())->onTimeout(mGameStatus);
 	update();
 }
 
@@ -80,7 +84,10 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 				QPointer<Plant> newPlant = dynamic_cast<Plant *>(GetPlantClassByID(property("selectedPlant").toInt())->newInstance());
 				newPlant->setPos(plantPos);
 				if (!newPlant->canPlant(mGameStatus))
+				{
+					newPlant->deleteLater();
 					return;
+				}
 
 				QList<QVariant> plantsData(mGameStatus->property("plants").toList());
 				plantsData.append(QVariant::fromValue(newPlant));

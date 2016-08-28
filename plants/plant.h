@@ -17,8 +17,6 @@ public:
 	~Plant() { }
 	virtual QString imgSrc() const = 0;
 
-	int plantIndex() const { return mPlantIndex; }
-	void setPlantIndex(int index) { mPlantIndex = index; }
 	QPoint pos() const { return mPlantPosition; }
 	void setPos(QPoint newPos) { mPlantPosition = newPos; }
 	int hp() const { return mHealthPoint; }
@@ -28,10 +26,11 @@ public:
 	int cd() { return mCoolDown; }
 	int cost() { return mCost; }
 
-	virtual bool canPlant(QObject *root);
+	Q_INVOKABLE virtual bool canPlant(QObject *root);
+	Q_INVOKABLE virtual void onPlanted(QObject *root);
+	Q_INVOKABLE virtual void onTimeout(QObject *root);
 
 protected:
-	int mPlantIndex;
 	QPoint mPlantPosition;
 	int mHealthPoint;
 	int mAttackDamage;

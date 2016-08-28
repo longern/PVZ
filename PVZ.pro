@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     plants/sunflower.cpp \
     plants/wallnut.cpp \
     plants/plants.cpp \
-    sound.cpp
+    sound.cpp \
+    zombies/zombies.cpp
 
 HEADERS  += mainwindow.h \
     welcomeinterface.h \

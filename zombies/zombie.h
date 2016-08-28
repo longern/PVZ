@@ -10,7 +10,8 @@ class Zombie : public QObject
 	Q_PROPERTY(int speed READ speed WRITE setSpeed NOTIFY speedChanged)
 
 public:
-	Zombie();
+	explicit Zombie(QObject *parent = 0);
+	Q_INVOKABLE virtual void onTimeout(QObject *root);
 };
 
 #endif // ZOMBIE_H
