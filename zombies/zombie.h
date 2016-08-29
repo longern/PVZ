@@ -10,6 +10,7 @@ class Zombie : public QObject
 	Q_PROPERTY(int hp READ hp WRITE setHp)
 	Q_PROPERTY(int attackDamage READ attackDamage)
 	Q_PROPERTY(int attackSpeed READ attackSpeed)
+	Q_PROPERTY(double moveSpeed READ moveSpeed)
 
 public:
 	explicit Zombie(QObject *parent = 0);
@@ -22,6 +23,7 @@ public:
 	void setHp(int hp) { mHealthPoint = hp; }
 	int attackDamage() const { return mAttackDamage; }
 	int attackSpeed() const { return mAttackSpeed; }
+	double moveSpeed() const { return mMoveSpeed; }
 
 	Q_INVOKABLE virtual void onTimeout(QObject *root);
 
@@ -30,6 +32,7 @@ protected:
 	int mHealthPoint;
 	int mAttackDamage;
 	int mAttackSpeed;
+	double mMoveSpeed;
 };
 
 #endif // ZOMBIE_H
