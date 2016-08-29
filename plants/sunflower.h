@@ -11,6 +11,8 @@ class SunFlower : public Plant
 public:
 	Q_INVOKABLE SunFlower(QObject *parent = 0);
 	virtual QString imgSrc() const;
+
+	Q_INVOKABLE virtual void onTimeout(QObject *root);
 };
 
 #endif // SUNFLOWER

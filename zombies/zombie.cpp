@@ -20,10 +20,10 @@ void Zombie::onTimeout(QObject *root)
 		   mZombiePosition.x() - plant->pos().x() < 0.5)
 		{
 			setProperty("state", QStringLiteral("attacking"));
-			plant->setHp(plant->hp() - (newCurrentTime - oldCurrentTime) * mAttackDamage / 1000.);
+			plant->setHp(plant->hp() - (newCurrentTime - oldCurrentTime) * attackDamage() / 1000.);
 			return;
 		}
 	}
 	setProperty("state", QStringLiteral("moving"));
-	mZombiePosition.rx() -= (newCurrentTime - oldCurrentTime) * mMoveSpeed;
+	mZombiePosition.rx() -= (newCurrentTime - oldCurrentTime) * moveSpeed();
 }

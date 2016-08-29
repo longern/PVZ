@@ -92,6 +92,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 		zombieMovieLabel->move(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width() - 65,
 							   ui->widgetLawnArea->y() + zombie->pos().y() * cellSize.height() - 70);
 	}
+	ui->labelSunValue->setText(QString::number(mGameStatus->property("sunshine").toInt()));
 }
 
 void PlayingInterface::timerEvent(QTimerEvent *)
@@ -130,7 +131,15 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 			if (!property("selectedPlant").isNull() && property("selectedPlant").toInt() == clickedPlantIndex)
 				setProperty("selectedPlant", QVariant());
 			else
+			{
+				QPointer<Plant> newPlant = dynamic_cast<Plant *>(GetPlantClassByID(clickedPlantIndex)->newInstance());
+				if (!newPlant->canPlant(mGameStatus))
+				{
+					newPlant->deleteLater();
+					return;
+				}
 				setProperty("selectedPlant", clickedPlantIndex);
+			}
 			return;
 		}
 		else if (p->objectName() == "widgetLawnArea")
@@ -150,6 +159,7 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 					newPlant->deleteLater();
 					return;
 				}
+				newPlant->onPlanted(mGameStatus);
 
 				QList<QVariant> plantsData(mGameStatus->property("plants").toList());
 				plantsData.append(QVariant::fromValue(newPlant));

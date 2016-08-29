@@ -10,6 +10,9 @@ Plant::Plant(QObject *parent) :
 
 bool Plant::canPlant(QObject *root)
 {
+	if (root->property("sunshine").toInt() < cost())
+		return false;
+
 	QList<QVariant> plantsData(root->property("plants").toList());
 	for (const QVariant &x : plantsData)
 	{
@@ -21,11 +24,11 @@ bool Plant::canPlant(QObject *root)
 	return true;
 }
 
-void Plant::onPlanted(QObject *)
+void Plant::onPlanted(QObject *root)
 {
-	QElapsedTimer elapsedTimer;
-	elapsedTimer.start();
-	setProperty("plantTime", QVariant(elapsedTimer.msecsSinceReference()));
+	qint64 newCurrentTime = root->property("currentTime").toLongLong();
+	setProperty("plantTime", newCurrentTime);
+	root->setProperty("sunshine", root->property("sunshine").toInt() - cost());
 }
 
 void Plant::onTimeout(QObject *root)

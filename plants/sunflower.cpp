@@ -3,10 +3,23 @@
 SunFlower::SunFlower(QObject *parent) :
 	Plant(parent)
 {
-
+	mCost = 50;
 }
 
 QString SunFlower::imgSrc() const
 {
 	return QStringLiteral(":/plants/images/Plants/SunFlower/SunFlower1.gif");
+}
+
+void SunFlower::onTimeout(QObject *root)
+{
+	qint64 newCurrentTime = root->property("currentTime").toLongLong();
+	qint64 oldCurrentTime = root->property("lastFrameTime").toLongLong();
+	qint64 plantTime = property("plantTime").toLongLong();
+	const int mProduceSpeed = 24000;
+	if ((newCurrentTime - plantTime) / mProduceSpeed > (oldCurrentTime - plantTime) / mProduceSpeed)
+	{
+		root->setProperty("sunshine", root->property("sunshine").toInt() + 25);
+	}
+	Plant::onTimeout(root);
 }

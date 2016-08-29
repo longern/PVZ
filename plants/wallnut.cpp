@@ -4,6 +4,7 @@ WallNut::WallNut(QObject *parent) :
 	Plant(parent)
 {
 	mHealthPoint = 4000.;
+	mCost = 50;
 }
 
 QString WallNut::imgSrc() const
