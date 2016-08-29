@@ -50,7 +50,8 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 		{
 			QLabel *plantMovieLabel = createDynamicImage(plant->imgSrc(), ui->widgetLawnArea);
 			plantMovieLabel->resize(cellSize);
-			plantMovieLabel->move(plant->pos().x() * cellSize.width(), plant->pos().y() * cellSize.height());
+			plantMovieLabel->move(plant->pos().x() * cellSize.width(),
+								  plant->pos().y() * cellSize.height() - 10);
 			plantMovieLabel->show();
 			plant->setProperty("img", QVariant::fromValue(QPointer<QLabel>(plantMovieLabel)));
 		}

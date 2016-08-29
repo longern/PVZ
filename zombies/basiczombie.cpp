@@ -5,7 +5,7 @@ BasicZombie::BasicZombie(QObject *parent) :
 {
 	mHealthPoint = 270;
 	mAttackDamage = 100;
-	mMoveSpeed = 1. / 5700.;
+	mMoveSpeed = 1. / 4700.;
 }
 
 QString BasicZombie::imgSrc() const

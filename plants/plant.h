@@ -7,7 +7,7 @@ class Plant : public QObject
 {
 	Q_OBJECT
 	Q_PROPERTY(QPointF pos READ pos WRITE setPos)
-	Q_PROPERTY(int hp READ hp WRITE setHp)
+	Q_PROPERTY(double hp READ hp WRITE setHp)
 	Q_PROPERTY(int attackDamage READ attackDamage)
 	Q_PROPERTY(int attackSpeed READ attackSpeed)
 	Q_PROPERTY(int cd READ cd)
@@ -20,8 +20,8 @@ public:
 
 	QPointF pos() const { return mPlantPosition; }
 	void setPos(QPointF newPos) { mPlantPosition = newPos; }
-	int hp() const { return mHealthPoint; }
-	void setHp(int hp) { mHealthPoint = hp; }
+	double hp() const { return mHealthPoint; }
+	void setHp(double hp) { mHealthPoint = hp; }
 	int attackDamage() const { return mAttackDamage; }
 	int attackSpeed() const { return mAttackSpeed; }
 	int cd() { return mCoolDown; }
@@ -33,7 +33,7 @@ public:
 
 protected:
 	QPointF mPlantPosition;
-	int mHealthPoint;
+	double mHealthPoint;
 	int mAttackDamage;
 	int mAttackSpeed;
 	int mCoolDown;

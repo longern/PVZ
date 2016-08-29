@@ -4,6 +4,7 @@
 Plant::Plant(QObject *parent) :
 	QObject(parent)
 {
+	mHealthPoint = 300;
 }
 
 bool Plant::canPlant(QObject *root)

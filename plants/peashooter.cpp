@@ -3,7 +3,6 @@
 Peashooter::Peashooter(QObject *parent) :
 	Plant(parent)
 {
-	mHealthPoint = 300;
 	mAttackDamage = 20;
 	mAttackSpeed = 1400;
 }
