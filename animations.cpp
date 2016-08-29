@@ -49,9 +49,13 @@ void PlayingInterface::onAnimationFinished()
 	}
 	case 1:
 	{
+		QElapsedTimer elapsedTimer;
+		elapsedTimer.start();
+		setProperty("gameStartTime", QVariant(elapsedTimer.msecsSinceReference()));
 		return;
 	}
 	}
 	ani->setProperty("animationID", animationID + 1);
+	connect(ani, SIGNAL(finished()), this, SLOT(onAnimationFinished()));
 	ani->start(QAbstractAnimation::DeleteWhenStopped);
 }

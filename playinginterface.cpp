@@ -73,7 +73,7 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 		}
 		else if (p->objectName() == "widgetLawnArea")
 		{
-			if (!property("selectedPlant").isNull())
+			if (!property("gameStartTime").isNull() && !property("selectedPlant").isNull())
 			{
 				QSize mapSize = mGameStatus->property("mapSize").toSize();
 				QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());

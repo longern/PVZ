@@ -11,8 +11,6 @@ class Peashooter : public Plant
 public:
 	Q_INVOKABLE Peashooter(QObject *parent = 0);
 	virtual QString imgSrc() const;
-
-	static QString staticImageSource() { return QStringLiteral(":/plants/images/Plants/Peashooter/0.gif"); }
 };
 
 #endif // PEASHOOTER_H
