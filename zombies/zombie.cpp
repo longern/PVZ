@@ -4,7 +4,7 @@
 Zombie::Zombie(QObject *parent) :
 	QObject(parent)
 {
-
+	mHealthPoint = 270;
 }
 
 void Zombie::onTimeout(QObject *root)

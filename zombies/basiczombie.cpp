@@ -3,7 +3,6 @@
 BasicZombie::BasicZombie(QObject *parent) :
 	Zombie(parent)
 {
-	mHealthPoint = 270;
 	mAttackDamage = 100;
 	mMoveSpeed = 1. / 4700.;
 }

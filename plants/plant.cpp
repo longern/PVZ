@@ -1,5 +1,6 @@
 #include "plant.h"
 #include <QElapsedTimer>
+#include <QList>
 
 Plant::Plant(QObject *parent) :
 	QObject(parent)
@@ -29,5 +30,11 @@ void Plant::onPlanted(QObject *)
 
 void Plant::onTimeout(QObject *root)
 {
-	Q_UNUSED(root)
+	if (mHealthPoint <= 0.)
+	{
+		deleteLater();
+		QList<QVariant> plantsData(root->property("plants").toList());
+		plantsData.removeOne(QVariant::fromValue(QPointer<Plant>(this)));
+		root->setProperty("plants", plantsData);
+	}
 }

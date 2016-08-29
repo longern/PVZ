@@ -30,6 +30,7 @@ protected:
 
 private slots:
 	void onAnimationFinished();
+	void onCreatureDestroyed(QObject *);
 	void on_buttonMenu_clicked();
 
 private:

@@ -3,7 +3,7 @@
 WallNut::WallNut(QObject *parent) :
 	Plant(parent)
 {
-
+	mHealthPoint = 4000;
 }
 
 QString WallNut::imgSrc() const

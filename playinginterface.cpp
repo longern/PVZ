@@ -46,6 +46,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 	for (const QVariant &x : mGameStatus->property("plants").toList())
 	{
 		Plant *plant = (Plant *)(x.value<QPointer<Plant>>());
+		connect(plant, SIGNAL(destroyed(QObject*)), this, SLOT(onCreatureDestroyed(QObject*)), Qt::UniqueConnection);
 		if (plant->property("img").isNull())
 		{
 			QLabel *plantMovieLabel = createDynamicImage(plant->imgSrc(), ui->widgetLawnArea);
@@ -59,6 +60,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 	for (const QVariant &x : mGameStatus->property("zombies").toList())
 	{
 		Zombie *zombie = (Zombie *)(x.value<QPointer<Zombie>>());
+		connect(zombie, SIGNAL(destroyed(QObject*)), this, SLOT(onCreatureDestroyed(QObject*)), Qt::UniqueConnection);
 		QLabel *zombieMovieLabel;
 		if (zombie->property("img").isNull())
 		{
@@ -147,6 +149,14 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 void PlayingInterface::mouseMoveEvent(QMouseEvent *ev)
 {
 	Q_UNUSED(ev)
+}
+
+void PlayingInterface::onCreatureDestroyed(QObject *creature)
+{
+	if (creature != nullptr && !creature->property("img").isNull())
+		(creature->property("img").value<QPointer<QLabel>>())->deleteLater();
+	else
+		qDebug() << "Null Pointer!";
 }
 
 void PlayingInterface::on_buttonMenu_clicked()
