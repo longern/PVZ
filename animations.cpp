@@ -1,5 +1,6 @@
 #include "ui_playform.h"
 #include "playinginterface.h"
+#include "gamelogic.h"
 #include <QPropertyAnimation>
 
 QVariant boolInterpolator(const bool &start, const bool &end, qreal progress)
@@ -49,9 +50,7 @@ void PlayingInterface::onAnimationFinished()
 	}
 	case 1:
 	{
-		QElapsedTimer elapsedTimer;
-		elapsedTimer.start();
-		setProperty("gameStartTime", QVariant(elapsedTimer.msecsSinceReference()));
+		gameLogic->onGameStart(mGameStatus);
 		return;
 	}
 	}

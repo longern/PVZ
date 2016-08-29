@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "mainwindow.h"
 
-class Plant;
+class GameLogic;
 
 namespace Ui {
 class PlayForm;
@@ -36,6 +36,7 @@ private:
 	Ui::PlayForm *ui;
 
 	QObject *mGameStatus;
+	GameLogic *gameLogic;
 
 	void registerInterpolator();
 };

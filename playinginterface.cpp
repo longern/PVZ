@@ -1,5 +1,6 @@
 #include "playinginterface.h"
 #include "ui_playform.h"
+#include "gamelogic.h"
 #include "plants/plants.h"
 #include "zombies/zombies.h"
 #include <QPropertyAnimation>
@@ -44,6 +45,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 
 void PlayingInterface::timerEvent(QTimerEvent *)
 {
+	gameLogic->onTimeout(mGameStatus);
 	for (const QVariant &x : mGameStatus->property("plants").toList())
 		(x.value<QPointer<Plant>>())->onTimeout(mGameStatus);
 	for (const QVariant &x : mGameStatus->property("zombies").toList())
@@ -73,7 +75,7 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 		}
 		else if (p->objectName() == "widgetLawnArea")
 		{
-			if (!property("gameStartTime").isNull() && !property("selectedPlant").isNull())
+			if (!mGameStatus->property("gameStartTime").isNull() && !property("selectedPlant").isNull())
 			{
 				QSize mapSize = mGameStatus->property("mapSize").toSize();
 				QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());

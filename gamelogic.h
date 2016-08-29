@@ -9,9 +9,8 @@ class GameLogic : public QObject
 public:
 	explicit GameLogic(QObject *parent = 0);
 
-signals:
-
-public slots:
+	Q_INVOKABLE void onGameStart(QObject *root);
+	Q_INVOKABLE void onTimeout(QObject *root);
 };
 
 #endif // GAMELOGIC_H

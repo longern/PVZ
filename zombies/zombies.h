@@ -1,7 +1,7 @@
 #ifndef ZOMBIES
 #define ZOMBIES
 
-#include "zombie.h"
+#include "basiczombie.h"
 
 const QMetaObject *GetZombieClassByID(int id);
 
