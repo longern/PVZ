@@ -32,10 +32,12 @@ private slots:
 	void onAnimationFinished();
 	void onCreatureDestroyed(QObject *);
 	void on_buttonMenu_clicked();
+	void onGameFinished();
 
 private:
 	Ui::PlayForm *ui;
 
+	int timerId;
 	QObject *mGameStatus;
 	GameLogic *mGameLogic;
 

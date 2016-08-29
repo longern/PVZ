@@ -20,7 +20,7 @@ public:
 	void setPos(QPointF newPos) { mZombiePosition = newPos; }
 	int hp() const { return mHealthPoint; }
 	void setHp(int hp) { mHealthPoint = hp; }
-	int attackDamage() const { if (property("frozen").toBool()) return mAttackDamage / 2; else return mMoveSpeed; }
+	int attackDamage() const { if (property("frozen").toBool()) return mAttackDamage / 2; else return mAttackDamage; }
 	double moveSpeed() const { if (property("frozen").toBool()) return mMoveSpeed / 2; else return mMoveSpeed; }
 
 	Q_INVOKABLE virtual void onTimeout(QObject *root);

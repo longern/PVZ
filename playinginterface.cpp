@@ -23,11 +23,12 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 	mGameStatus->setProperty("mapSize", QSize(9, 5));
 	mGameStatus->setProperty("sunshine", 2000);
 	mGameLogic = new GameLogic(this);
+	connect(mGameLogic, SIGNAL(gameFinished()), this, SLOT(onGameFinished()));
 
 	registerInterpolator();
 	onAnimationFinished();  // Activate first animation
 
-	startTimer(0);
+	timerId = startTimer(0);
 }
 
 QLabel *PlayingInterface::createDynamicImage(const QString &imgSrc, QWidget *parent)
@@ -230,6 +231,11 @@ void PlayingInterface::onCreatureDestroyed(QObject *creature)
 void PlayingInterface::on_buttonMenu_clicked()
 {
 	qDebug() << "menu?" << endl;
+}
+
+void PlayingInterface::onGameFinished()
+{
+	killTimer(timerId);
 }
 
 QPointF PlayingInterface::screenToLawn(QPoint point)
