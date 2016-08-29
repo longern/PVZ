@@ -81,7 +81,7 @@ void PoleVaultingZombie::onTimeout(QObject *root)
 	for (const QVariant &x : root->property("plants").toList())
 	{
 		Plant *plant = (Plant *)(x.value<QPointer<Plant>>());
-		if(plant->pos().y() == mZombiePosition.y() &&
+		if (plant->pos().y() == mZombiePosition.y() &&
 		   mZombiePosition.x() - plant->pos().x() >= 0 &&
 		   mZombiePosition.x() - plant->pos().x() < 0.5)
 		{
@@ -91,5 +91,6 @@ void PoleVaultingZombie::onTimeout(QObject *root)
 		}
 	}
 
+	setProperty("state", QStringLiteral("moving"));
 	mZombiePosition.rx() -= (newCurrentTime - oldCurrentTime) * moveSpeed();
 }

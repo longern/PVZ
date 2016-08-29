@@ -26,7 +26,7 @@ void GameLogic::onTimeout(QObject *root)
 	for (const QVariant &y : root->property("zombies").toList())
 	{
 		Zombie *zombie = (Zombie *)(y.value<QPointer<Zombie>>());
-		if(zombie->hp() > 0 && zombie->pos().x() < -0.5)
+		if(zombie->hp() > 0 && zombie->pos().x() < -1.)
 		{
 			root->setProperty("winner", "zombies");
 			emit gameFinished();
