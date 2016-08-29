@@ -21,15 +21,16 @@ void GameLogic::onTimeout(QObject *root)
 {
 	QElapsedTimer elapsedTimer;
 	elapsedTimer.start();
-	qint64 newCurrentTime = root->property("gameStartTime").toLongLong() - elapsedTimer.msecsSinceReference();
+	qint64 newCurrentTime = elapsedTimer.msecsSinceReference() - root->property("gameStartTime").toLongLong();
 	qint64 oldCurrentTime = root->property("currentTime").toLongLong();
-	if(oldCurrentTime < 10000 && newCurrentTime >= 10000)
+	if(oldCurrentTime < 1000 && newCurrentTime >= 1000)
 	{
-		QPointer<Zombie> newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(0)->newInstance());
-		newZombie->setPos(QPointF(qrand() % 4, 8));
+		QPointer<Zombie> newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(1)->newInstance());
+		newZombie->setPos(QPointF(8, qrand() % 5));
 
 		QList<QVariant> zombiesData(root->property("zombies").toList());
 		zombiesData.append(QVariant::fromValue(newZombie));
 		root->setProperty("zombies", zombiesData);
 	}
+	root->setProperty("currentTime", newCurrentTime);
 }

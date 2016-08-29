@@ -39,6 +39,7 @@ private:
 	GameLogic *gameLogic;
 
 	void registerInterpolator();
+	QPointF screenToLawn(QPoint point);
 };
 
 #endif // PLAYINGINTERFACE_H

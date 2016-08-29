@@ -21,6 +21,7 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 
 	mGameStatus = new QObject(this);
 	mGameStatus->setProperty("mapSize", QSize(9, 5));
+	mGameStatus->setProperty("sunshine", 50);
 
 	registerInterpolator();
 	onAnimationFinished();  // Activate first animation
@@ -40,16 +41,46 @@ QLabel *PlayingInterface::createDynamicImage(const QString &imgSrc, QWidget *par
 
 void PlayingInterface::paintEvent(QPaintEvent *)
 {
-	QPainter painter;
+	QSize mapSize = mGameStatus->property("mapSize").toSize();
+	QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());
+	for (const QVariant &x : mGameStatus->property("plants").toList())
+	{
+		Plant *plant = (Plant *)(x.value<QPointer<Plant>>());
+		if (plant->property("img").isNull())
+		{
+			QLabel *plantMovieLabel = createDynamicImage(plant->imgSrc(), ui->widgetLawnArea);
+			plantMovieLabel->resize(cellSize);
+			plantMovieLabel->move(plant->pos().x() * cellSize.width(), plant->pos().y() * cellSize.height());
+			plantMovieLabel->show();
+			plant->setProperty("img", QVariant::fromValue(QPointer<QLabel>(plantMovieLabel)));
+		}
+	}
+	for (const QVariant &x : mGameStatus->property("zombies").toList())
+	{
+		Zombie *zombie = (Zombie *)(x.value<QPointer<Zombie>>());
+		if (zombie->property("img").isNull())
+		{
+			QLabel *zombieMovieLabel = createDynamicImage(zombie->imgSrc(), this);
+			zombieMovieLabel->resize(166, 144);
+			zombieMovieLabel->move(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width() - 60,
+								   ui->widgetLawnArea->y() + zombie->pos().y() * cellSize.height() - 70);
+			zombieMovieLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+			zombieMovieLabel->show();
+			zombie->setProperty("img", QVariant::fromValue(QPointer<QLabel>(zombieMovieLabel)));
+		}
+	}
 }
 
 void PlayingInterface::timerEvent(QTimerEvent *)
 {
-	gameLogic->onTimeout(mGameStatus);
-	for (const QVariant &x : mGameStatus->property("plants").toList())
-		(x.value<QPointer<Plant>>())->onTimeout(mGameStatus);
-	for (const QVariant &x : mGameStatus->property("zombies").toList())
-		(x.value<QPointer<Plant>>())->onTimeout(mGameStatus);
+	if (!mGameStatus->property("gameStartTime").isNull())
+	{
+		gameLogic->onTimeout(mGameStatus);
+		for (const QVariant &x : mGameStatus->property("plants").toList())
+			(x.value<QPointer<Plant>>())->onTimeout(mGameStatus);
+		for (const QVariant &x : mGameStatus->property("zombies").toList())
+			(x.value<QPointer<Zombie>>())->onTimeout(mGameStatus);
+	}
 	update();
 }
 
@@ -95,10 +126,6 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 				plantsData.append(QVariant::fromValue(newPlant));
 				mGameStatus->setProperty("plants", plantsData);
 
-				QLabel *plantMovieLabel = createDynamicImage(newPlant->imgSrc(), ui->widgetLawnArea);
-				plantMovieLabel->resize(cellSize);
-				plantMovieLabel->move(plantPos.x() * cellSize.width(), plantPos.y() * cellSize.height());
-				plantMovieLabel->show();
 				setProperty("selectedPlant", QVariant());
 			}
 			return;
@@ -115,4 +142,12 @@ void PlayingInterface::mouseMoveEvent(QMouseEvent *ev)
 void PlayingInterface::on_buttonMenu_clicked()
 {
 	qDebug() << "menu?" << endl;
+}
+
+QPointF PlayingInterface::screenToLawn(QPoint point)
+{
+	QSize mapSize = mGameStatus->property("mapSize").toSize();
+	QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());
+	QPointF relativePos = ui->widgetLawnArea->mapFrom(this, point);
+	return QPointF(0., 0.);
 }
