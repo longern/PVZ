@@ -11,6 +11,8 @@ class SnowPea : public Plant
 public:
 	Q_INVOKABLE SnowPea(QObject *parent = 0);
 	virtual QString imgSrc() const;
+
+	Q_INVOKABLE virtual void onTimeout(QObject *root);
 };
 
 #endif // SNOWPEA_H

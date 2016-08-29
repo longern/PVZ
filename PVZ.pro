@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     sound.cpp \
     zombies/zombies.cpp \
     zombies/basiczombie.cpp \
-    gamelogic.cpp
+    gamelogic.cpp \
+    zombies/bucketheadzombie.cpp
 
 HEADERS  += mainwindow.h \
     welcomeinterface.h \
@@ -47,7 +48,8 @@ HEADERS  += mainwindow.h \
     plants/wallnut.h \
     sound.h \
     zombies/basiczombie.h \
-    gamelogic.h
+    gamelogic.h \
+    zombies/bucketheadzombie.h
 
 FORMS    += \
     welcomeform.ui \

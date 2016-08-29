@@ -10,8 +10,17 @@ Zombie::Zombie(QObject *parent) :
 
 void Zombie::onTimeout(QObject *root)
 {
+	if (mHealthPoint <= 0.)
+	{
+		deleteLater();
+		QList<QVariant> zombiesData(root->property("zombies").toList());
+		zombiesData.removeOne(QVariant::fromValue(QPointer<Zombie>(this)));
+		root->setProperty("zombies", zombiesData);
+	}
+
 	qint64 newCurrentTime = root->property("currentTime").toLongLong();
 	qint64 oldCurrentTime = root->property("lastFrameTime").toLongLong();
+
 	for (const QVariant &x : root->property("plants").toList())
 	{
 		Plant *plant = (Plant *)(x.value<QPointer<Plant>>());

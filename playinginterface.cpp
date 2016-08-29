@@ -21,7 +21,7 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 
 	mGameStatus = new QObject(this);
 	mGameStatus->setProperty("mapSize", QSize(9, 5));
-	mGameStatus->setProperty("sunshine", 50);
+	mGameStatus->setProperty("sunshine", 2000);
 
 	registerInterpolator();
 	onAnimationFinished();  // Activate first animation
@@ -43,6 +43,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 {
 	QSize mapSize = mGameStatus->property("mapSize").toSize();
 	QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());
+
 	for (const QVariant &x : mGameStatus->property("plants").toList())
 	{
 		Plant *plant = (Plant *)(x.value<QPointer<Plant>>());
@@ -67,6 +68,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 			plantMovieLabel->setMovie(movie);
 		}
 	}
+
 	for (const QVariant &x : mGameStatus->property("zombies").toList())
 	{
 		Zombie *zombie = (Zombie *)(x.value<QPointer<Zombie>>());
@@ -89,10 +91,40 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 			movie->start();
 			zombieMovieLabel->setMovie(movie);
 		}
+		zombieMovieLabel->movie()->setSpeed(zombie->property("frozen").toBool() ? 50 : 100);
 		zombieMovieLabel->move(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width() - 65,
 							   ui->widgetLawnArea->y() + zombie->pos().y() * cellSize.height() - 70);
 	}
 	ui->labelSunValue->setText(QString::number(mGameStatus->property("sunshine").toInt()));
+
+	qint64 newCurrentTime = mGameStatus->property("currentTime").toLongLong();
+	QList<QVariant> bullets = mGameStatus->property("bullets").toList();
+	for (int i = 0; i < bullets.length(); i++)
+	{
+		QMap<QString, QVariant> bullet = bullets[i].toMap();
+		QLabel *bulletLabel;;
+		if (bullet["img"].isNull())
+		{
+			bulletLabel = new QLabel(this);
+			bulletLabel->setObjectName("bullet");
+			bullet["img"] = QVariant::fromValue(QPointer<QLabel>(bulletLabel));
+			bulletLabel->setPixmap(bullet["imgSrc"].toString());
+			bulletLabel->resize(56, 34);
+			bulletLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+			bulletLabel->show();
+			bullets[i] = bullet;
+		}
+		else
+			bulletLabel = (QLabel *)(bullet["img"].value<QPointer<QLabel>>());
+		bulletLabel->setProperty("currentTime", newCurrentTime);
+		bulletLabel->move(ui->widgetLawnArea->x() + bullet["pos"].toPointF().x() * cellSize.width() - 15,
+						  ui->widgetLawnArea->y() + bullet["pos"].toPointF().y() * cellSize.height());
+	}
+	QList<QLabel *> bulletLabels = findChildren<QLabel *>("bullet", Qt::FindDirectChildrenOnly);
+	for (QLabel *x : bulletLabels)
+		if (x->property("currentTime") != newCurrentTime)
+			x->deleteLater();
+	mGameStatus->setProperty("bullets", bullets);
 }
 
 void PlayingInterface::timerEvent(QTimerEvent *)
@@ -133,7 +165,7 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 			else
 			{
 				QPointer<Plant> newPlant = dynamic_cast<Plant *>(GetPlantClassByID(clickedPlantIndex)->newInstance());
-				if (!newPlant->canPlant(mGameStatus))
+				if (newPlant->cost() > mGameStatus->property("sunshine").toInt())
 				{
 					newPlant->deleteLater();
 					return;
