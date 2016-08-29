@@ -30,6 +30,8 @@
         <file>images/Plants/Peashooter/0.gif</file>
         <file>images/Plants/SunFlower/0.gif</file>
         <file>images/Plants/WallNut/0.gif</file>
+        <file>images/Plants/BulletIce.gif</file>
+        <file>images/Plants/BulletNormal.gif</file>
     </qresource>
     <qresource prefix="/zombies">
         <file>images/Zombies/Zombie/Zombie.gif</file>
