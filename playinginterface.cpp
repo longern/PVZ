@@ -10,6 +10,7 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 	ui(new Ui::PlayForm)
 {
 	ui->setupUi(this);
+	ui->labelZombieWin->hide();
 
 	for (int i = 1; i <= 4; i++)
 	{
@@ -236,6 +237,7 @@ void PlayingInterface::on_buttonMenu_clicked()
 void PlayingInterface::onGameFinished()
 {
 	killTimer(timerId);
+	ui->labelZombieWin->show();
 }
 
 QPointF PlayingInterface::screenToLawn(QPoint point)

@@ -341,7 +341,22 @@ font-family: &quot;Comic Sans MS&quot;;</string>
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QLabel" name="labelZombieWin">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>50</y>
+     <width>511</width>
+     <height>441</height>
+    </rect>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="image.qrc">:/interface/images/interface/ZombiesWon.png</pixmap>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="image.qrc"/>
+ </resources>
  <connections/>
 </ui>
