@@ -82,7 +82,7 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 										 qMin(relativePos.y() / cellSize.height(), mapSize.height() - 1));
 
 				QPointer<Plant> newPlant = dynamic_cast<Plant *>(GetPlantClassByID(property("selectedPlant").toInt())->newInstance());
-				newPlant->setPos(plantPos);
+				newPlant->setPos(QPointF(plantPos));
 				if (!newPlant->canPlant(mGameStatus))
 				{
 					newPlant->deleteLater();

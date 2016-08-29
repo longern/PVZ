@@ -1,4 +1,5 @@
 #include "plant.h"
+#include <QElapsedTimer>
 
 Plant::Plant(QObject *parent) :
 	QObject(parent)
@@ -18,9 +19,11 @@ bool Plant::canPlant(QObject *root)
 	return true;
 }
 
-void Plant::onPlanted(QObject *root)
+void Plant::onPlanted(QObject *)
 {
-	Q_UNUSED(root)
+	QElapsedTimer elapsedTimer;
+	elapsedTimer.start();
+	setProperty("plantTime", QVariant(elapsedTimer.msecsSinceReference()));
 }
 
 void Plant::onTimeout(QObject *root)

@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     plants/wallnut.cpp \
     plants/plants.cpp \
     sound.cpp \
-    zombies/zombies.cpp
+    zombies/zombies.cpp \
+    zombies/basiczombie.cpp
 
 HEADERS  += mainwindow.h \
     welcomeinterface.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwindow.h \
     plants/snowpea.h \
     plants/sunflower.h \
     plants/wallnut.h \
-    sound.h
+    sound.h \
+    zombies/basiczombie.h
 
 FORMS    += \
     welcomeform.ui \

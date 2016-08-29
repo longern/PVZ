@@ -6,6 +6,7 @@
 class Plant : public QObject
 {
 	Q_OBJECT
+	Q_PROPERTY(QPointF pos READ pos WRITE setPos)
 	Q_PROPERTY(int hp READ hp WRITE setHp)
 	Q_PROPERTY(int attackDamage READ attackDamage)
 	Q_PROPERTY(int attackSpeed READ attackSpeed)
@@ -17,8 +18,8 @@ public:
 	~Plant() { }
 	virtual QString imgSrc() const = 0;
 
-	QPoint pos() const { return mPlantPosition; }
-	void setPos(QPoint newPos) { mPlantPosition = newPos; }
+	QPointF pos() const { return mPlantPosition; }
+	void setPos(QPointF newPos) { mPlantPosition = newPos; }
 	int hp() const { return mHealthPoint; }
 	void setHp(int hp) { mHealthPoint = hp; }
 	int attackDamage() const { return mAttackDamage; }
@@ -31,7 +32,7 @@ public:
 	Q_INVOKABLE virtual void onTimeout(QObject *root);
 
 protected:
-	QPoint mPlantPosition;
+	QPointF mPlantPosition;
 	int mHealthPoint;
 	int mAttackDamage;
 	int mAttackSpeed;
