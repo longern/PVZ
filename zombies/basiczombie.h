@@ -6,7 +6,7 @@
 class BasicZombie : public Zombie
 {
 	Q_OBJECT
-	Q_CLASSINFO("staticImageSource", ":/zombies/images/Zombies/Zombie/Zombie.gif")
+	Q_CLASSINFO("staticImageSource", ":/zombies/images/Zombies/Zombie/0.gif")
 
 public:
 	Q_INVOKABLE BasicZombie(QObject *parent = 0);
