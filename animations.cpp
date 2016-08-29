@@ -50,7 +50,7 @@ void PlayingInterface::onAnimationFinished()
 	}
 	case 1:
 	{
-		gameLogic->onGameStart(mGameStatus);
+		mGameLogic->onGameStart(mGameStatus);
 		return;
 	}
 	}

@@ -22,6 +22,7 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 	mGameStatus = new QObject(this);
 	mGameStatus->setProperty("mapSize", QSize(9, 5));
 	mGameStatus->setProperty("sunshine", 2000);
+	mGameLogic = new GameLogic(this);
 
 	registerInterpolator();
 	onAnimationFinished();  // Activate first animation
@@ -145,7 +146,7 @@ void PlayingInterface::timerEvent(QTimerEvent *)
 		elapsedTimer.start();
 		qint64 newCurrentTime = elapsedTimer.msecsSinceReference() - mGameStatus->property("gameStartTime").toLongLong();
 		mGameStatus->setProperty("currentTime", newCurrentTime);
-		gameLogic->onTimeout(mGameStatus);
+		mGameLogic->onTimeout(mGameStatus);
 		for (const QVariant &x : mGameStatus->property("plants").toList())
 			(x.value<QPointer<Plant>>())->onTimeout(mGameStatus);
 		for (const QVariant &x : mGameStatus->property("zombies").toList())

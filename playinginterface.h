@@ -37,7 +37,7 @@ private:
 	Ui::PlayForm *ui;
 
 	QObject *mGameStatus;
-	GameLogic *gameLogic;
+	GameLogic *mGameLogic;
 
 	void registerInterpolator();
 	QPointF screenToLawn(QPoint point);

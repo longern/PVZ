@@ -23,6 +23,17 @@ void GameLogic::onTimeout(QObject *root)
 	qint64 oldCurrentTime = root->property("lastFrameTime").toLongLong();
 	QSize mapSize = root->property("mapSize").toSize();
 
+	for (const QVariant &y : root->property("zombies").toList())
+	{
+		Zombie *zombie = (Zombie *)(y.value<QPointer<Zombie>>());
+		if(zombie->hp() > 0 && zombie->pos().x() < -0.5)
+		{
+			root->setProperty("winner", "zombies");
+			emit gameFinished();
+			return;
+		}
+	}
+
 	QList<QVariant> bullets = root->property("bullets").toList();
 	for (int i = 0;	i < bullets.length(); )
 	{

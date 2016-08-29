@@ -11,6 +11,9 @@ public:
 
 	Q_INVOKABLE void onGameStart(QObject *root);
 	Q_INVOKABLE void onTimeout(QObject *root);
+
+signals:
+	void gameFinished();
 };
 
 #endif // GAMELOGIC_H
