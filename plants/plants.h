@@ -5,6 +5,7 @@
 #include "sunflower.h"
 #include "wallnut.h"
 #include "snowpea.h"
+#include "cherrybomb.h"
 
 const QMetaObject *GetPlantClassByID(int id);
 

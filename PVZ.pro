@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     zombies/basiczombie.cpp \
     gamelogic.cpp \
     zombies/bucketheadzombie.cpp \
-    zombies/polevaultingzombie.cpp
+    zombies/polevaultingzombie.cpp \
+	plants/cherrybomb.cpp
 
 HEADERS  += mainwindow.h \
     welcomeinterface.h \
@@ -51,7 +52,8 @@ HEADERS  += mainwindow.h \
     zombies/basiczombie.h \
     gamelogic.h \
     zombies/bucketheadzombie.h \
-    zombies/polevaultingzombie.h
+    zombies/polevaultingzombie.h \
+	plants/cherrybomb.h
 
 FORMS    += \
     welcomeform.ui \

@@ -12,7 +12,7 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 	ui->setupUi(this);
 	ui->labelZombieWin->hide();
 
-	for (int i = 1; i <= 4; i++)
+	for (int i = 1; i <= 5; i++)
 	{
 		QLabel *card = ui->widgetCardArea->findChild<QLabel *>("labelPlantAvatar" + QString::number(i));
 		const QMetaObject *plantClass = GetPlantClassByID(i);
