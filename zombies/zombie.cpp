@@ -5,6 +5,7 @@ Zombie::Zombie(QObject *parent) :
 	QObject(parent)
 {
 	mHealthPoint = 270;
+	setProperty("state", QStringLiteral("moving"));
 }
 
 void Zombie::onTimeout(QObject *root)
@@ -18,9 +19,11 @@ void Zombie::onTimeout(QObject *root)
 		   mZombiePosition.x() - plant->pos().x() >= 0 &&
 		   mZombiePosition.x() - plant->pos().x() < 0.5)
 		{
+			setProperty("state", QStringLiteral("attacking"));
 			plant->setHp(plant->hp() - (newCurrentTime - oldCurrentTime) * mAttackDamage / 1000.);
 			return;
 		}
 	}
+	setProperty("state", QStringLiteral("moving"));
 	mZombiePosition.rx() -= (newCurrentTime - oldCurrentTime) * mMoveSpeed;
 }

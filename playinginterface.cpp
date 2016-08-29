@@ -47,14 +47,24 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 	{
 		Plant *plant = (Plant *)(x.value<QPointer<Plant>>());
 		connect(plant, SIGNAL(destroyed(QObject*)), this, SLOT(onCreatureDestroyed(QObject*)), Qt::UniqueConnection);
+		QLabel *plantMovieLabel;
 		if (plant->property("img").isNull())
 		{
-			QLabel *plantMovieLabel = createDynamicImage(plant->imgSrc(), ui->widgetLawnArea);
+			plantMovieLabel = createDynamicImage(plant->imgSrc(), ui->widgetLawnArea);
+			plant->setProperty("img", QVariant::fromValue(QPointer<QLabel>(plantMovieLabel)));
 			plantMovieLabel->resize(cellSize);
 			plantMovieLabel->move(plant->pos().x() * cellSize.width(),
 								  plant->pos().y() * cellSize.height() - 10);
 			plantMovieLabel->show();
-			plant->setProperty("img", QVariant::fromValue(QPointer<QLabel>(plantMovieLabel)));
+		}
+		else
+			plantMovieLabel = (QLabel *)(plant->property("img").value<QPointer<QLabel>>());
+		if (plant->imgSrc() != plantMovieLabel->movie()->fileName())
+		{
+			plantMovieLabel->movie()->deleteLater();
+			QMovie *movie = new QMovie(plant->imgSrc(), QByteArray(), this);
+			movie->start();
+			plantMovieLabel->setMovie(movie);
 		}
 	}
 	for (const QVariant &x : mGameStatus->property("zombies").toList())
@@ -68,12 +78,19 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 			zombie->setProperty("img", QVariant::fromValue(QPointer<QLabel>(zombieMovieLabel)));
 			zombieMovieLabel->resize(166, 144);
 			zombieMovieLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+			zombieMovieLabel->show();
 		}
 		else
 			zombieMovieLabel = (QLabel *)(zombie->property("img").value<QPointer<QLabel>>());
-		zombieMovieLabel->move(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width() - 60,
+		if (zombie->imgSrc() != zombieMovieLabel->movie()->fileName())
+		{
+			zombieMovieLabel->movie()->deleteLater();
+			QMovie *movie = new QMovie(zombie->imgSrc(), QByteArray(), this);
+			movie->start();
+			zombieMovieLabel->setMovie(movie);
+		}
+		zombieMovieLabel->move(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width() - 65,
 							   ui->widgetLawnArea->y() + zombie->pos().y() * cellSize.height() - 70);
-		zombieMovieLabel->show();
 	}
 }
 

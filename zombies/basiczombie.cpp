@@ -9,5 +9,8 @@ BasicZombie::BasicZombie(QObject *parent) :
 
 QString BasicZombie::imgSrc() const
 {
-	return QStringLiteral(":/zombies/images/Zombies/Zombie/Zombie.gif");
+	if (property("state").toString() == "attacking")
+		return QStringLiteral(":/zombies/images/Zombies/Zombie/ZombieAttack.gif");
+	else
+		return QStringLiteral(":/zombies/images/Zombies/Zombie/Zombie.gif");
 }
