@@ -43,6 +43,7 @@ void GameLogic::onTimeout(QObject *root)
 			   qAbs(zombie->pos().y() - bullet["pos"].toPointF().y()) < 0.5 &&
 			   zombie->pos().x() - bullet["pos"].toPointF().x() >= 0 &&
 			   zombie->pos().x() - bullet["pos"].toPointF().x() < 0.25 &&
+			   !zombie->property("high").toBool() &&
 			   (hitZombie == nullptr || zombie->pos().x() < hitZombieX))
 			{
 				hitZombie = zombie;
@@ -67,7 +68,7 @@ void GameLogic::onTimeout(QObject *root)
 
 	if(oldCurrentTime < 1000 && newCurrentTime >= 1000)
 	{
-		QPointer<Zombie> newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(2)->newInstance());
+		QPointer<Zombie> newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(3)->newInstance());
 		newZombie->setPos(QPointF(8, qrand() % 5));
 
 		QList<QVariant> zombiesData(root->property("zombies").toList());

@@ -78,7 +78,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 		{
 			zombieMovieLabel = createDynamicImage(zombie->imgSrc(), this);
 			zombie->setProperty("img", QVariant::fromValue(QPointer<QLabel>(zombieMovieLabel)));
-			zombieMovieLabel->resize(166, 144);
+			zombieMovieLabel->resize(348, 218);
 			zombieMovieLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
 			zombieMovieLabel->show();
 		}
@@ -91,9 +91,17 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 			movie->start();
 			zombieMovieLabel->setMovie(movie);
 		}
+		static QMap<QString, QPoint> zombieAnimationOffset;
+		if (zombieAnimationOffset.isEmpty())
+		{
+			zombieAnimationOffset["BasicZombie"] = QPoint(-65, -70);
+			zombieAnimationOffset["BucketheadZombie"] = QPoint(-65, -70);
+			zombieAnimationOffset["PoleVaultingZombie"] = QPoint(-190, -120);
+		}
 		zombieMovieLabel->movie()->setSpeed(zombie->property("frozen").toBool() ? 50 : 100);
-		zombieMovieLabel->move(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width() - 65,
-							   ui->widgetLawnArea->y() + zombie->pos().y() * cellSize.height() - 70);
+		zombieMovieLabel->move(QPoint(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width(),
+							   ui->widgetLawnArea->y() + zombie->pos().y() * cellSize.height()) +
+							   zombieAnimationOffset[zombie->metaObject()->className()]);
 	}
 	ui->labelSunValue->setText(QString::number(mGameStatus->property("sunshine").toInt()));
 

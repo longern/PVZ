@@ -3,6 +3,7 @@
 
 #include "basiczombie.h"
 #include "bucketheadzombie.h"
+#include "polevaultingzombie.h"
 
 const QMetaObject *GetZombieClassByID(int id);
 

@@ -4,7 +4,6 @@ BucketheadZombie::BucketheadZombie(QObject *parent) :
 	Zombie(parent)
 {
 	mHealthPoint = 1370;
-	mAttackDamage = 100;
 	mMoveSpeed = 1. / 4700.;
 }
 

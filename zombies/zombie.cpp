@@ -5,6 +5,7 @@ Zombie::Zombie(QObject *parent) :
 	QObject(parent)
 {
 	mHealthPoint = 270;
+	mAttackDamage = 100;
 	setProperty("state", QStringLiteral("moving"));
 }
 
