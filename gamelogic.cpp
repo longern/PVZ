@@ -19,10 +19,8 @@ void GameLogic::onGameStart(QObject *root)
 
 void GameLogic::onTimeout(QObject *root)
 {
-	QElapsedTimer elapsedTimer;
-	elapsedTimer.start();
-	qint64 newCurrentTime = elapsedTimer.msecsSinceReference() - root->property("gameStartTime").toLongLong();
-	qint64 oldCurrentTime = root->property("currentTime").toLongLong();
+	qint64 newCurrentTime = root->property("currentTime").toLongLong();
+	qint64 oldCurrentTime = root->property("lastFrameTime").toLongLong();
 	if(oldCurrentTime < 1000 && newCurrentTime >= 1000)
 	{
 		QPointer<Zombie> newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(1)->newInstance());
@@ -32,5 +30,4 @@ void GameLogic::onTimeout(QObject *root)
 		zombiesData.append(QVariant::fromValue(newZombie));
 		root->setProperty("zombies", zombiesData);
 	}
-	root->setProperty("currentTime", newCurrentTime);
 }

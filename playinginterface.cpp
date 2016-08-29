@@ -58,16 +58,19 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 	for (const QVariant &x : mGameStatus->property("zombies").toList())
 	{
 		Zombie *zombie = (Zombie *)(x.value<QPointer<Zombie>>());
+		QLabel *zombieMovieLabel;
 		if (zombie->property("img").isNull())
 		{
-			QLabel *zombieMovieLabel = createDynamicImage(zombie->imgSrc(), this);
-			zombieMovieLabel->resize(166, 144);
-			zombieMovieLabel->move(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width() - 60,
-								   ui->widgetLawnArea->y() + zombie->pos().y() * cellSize.height() - 70);
-			zombieMovieLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
-			zombieMovieLabel->show();
+			zombieMovieLabel = createDynamicImage(zombie->imgSrc(), this);
 			zombie->setProperty("img", QVariant::fromValue(QPointer<QLabel>(zombieMovieLabel)));
+			zombieMovieLabel->resize(166, 144);
+			zombieMovieLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
 		}
+		else
+			zombieMovieLabel = (QLabel *)(zombie->property("img").value<QPointer<QLabel>>());
+		zombieMovieLabel->move(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width() - 60,
+							   ui->widgetLawnArea->y() + zombie->pos().y() * cellSize.height() - 70);
+		zombieMovieLabel->show();
 	}
 }
 
@@ -75,6 +78,12 @@ void PlayingInterface::timerEvent(QTimerEvent *)
 {
 	if (!mGameStatus->property("gameStartTime").isNull())
 	{
+		QElapsedTimer elapsedTimer;
+		qint64 oldCurrentTime = mGameStatus->property("currentTime").toLongLong();
+		mGameStatus->setProperty("lastFrameTime", oldCurrentTime);
+		elapsedTimer.start();
+		qint64 newCurrentTime = elapsedTimer.msecsSinceReference() - mGameStatus->property("gameStartTime").toLongLong();
+		mGameStatus->setProperty("currentTime", newCurrentTime);
 		gameLogic->onTimeout(mGameStatus);
 		for (const QVariant &x : mGameStatus->property("plants").toList())
 			(x.value<QPointer<Plant>>())->onTimeout(mGameStatus);

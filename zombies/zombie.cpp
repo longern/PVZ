@@ -8,5 +8,9 @@ Zombie::Zombie(QObject *parent) :
 
 void Zombie::onTimeout(QObject *root)
 {
-	Q_UNUSED(root);
+	QElapsedTimer elapsedTimer;
+	elapsedTimer.start();
+	qint64 newCurrentTime = root->property("currentTime").toLongLong();
+	qint64 oldCurrentTime = root->property("lastFrameTime").toLongLong();
+	mZombiePosition.rx() -= (newCurrentTime - oldCurrentTime) * mMoveSpeed;
 }
