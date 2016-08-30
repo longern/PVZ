@@ -18,6 +18,7 @@ public:
 public slots:
 	void setPlantAvatar(const QString &avatar);
 	void setPlantCost(int cost);
+	void setCoolDown(double coolDown);
 
 private:
 	Ui::PlantCard *ui;

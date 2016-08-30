@@ -25,6 +25,7 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 			card->setPlantAvatar(plantClass->classInfo(plantClass->indexOfClassInfo("staticImageSource")).value());
 			card->setPlantCost(cost);
 		}
+		card->setCoolDown(0.3);
 	}
 
 	mGameStatus = new QObject(this);
@@ -144,6 +145,20 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 		if (x->property("currentTime") != newCurrentTime)
 			x->deleteLater();
 	mGameStatus->setProperty("bullets", bullets);
+
+	QMap<QString, QVariant> lastPlantTimeList = mGameStatus->property("lastPlantTime").toMap();
+	for (int i = 1; i <= 5; i++)
+	{
+		QVariant lastPlantTime = lastPlantTimeList[GetPlantClassByID(i)->className()];
+		Plant *plant = dynamic_cast<Plant *>(GetPlantClassByID(i)->newInstance());
+		if (!lastPlantTime.isNull() && newCurrentTime - lastPlantTime.toLongLong() < plant->cd())
+			findChild<PlantCard *>("widgetPlantCard" + QString::number(i))->setCoolDown(double(newCurrentTime - lastPlantTime.toLongLong()) / plant->cd());
+		else if (plant->cost() > mGameStatus->property("sunvalue").toInt())
+			findChild<PlantCard *>("widgetPlantCard" + QString::number(i))->setCoolDown(0.);
+		else
+			findChild<PlantCard *>("widgetPlantCard" + QString::number(i))->setCoolDown(1.);
+		delete plant;
+	}
 }
 
 void PlayingInterface::timerEvent(QTimerEvent *)

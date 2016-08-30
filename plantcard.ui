@@ -55,9 +55,23 @@
     <string notr="true">* { background-image: url(:/interface/images/interface/Plant_Card.png); }</string>
    </property>
   </widget>
+  <widget class="QWidget" name="labelPlantMask" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>45</width>
+     <height>63</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 127), stop:1 rgba(255, 255, 255, 127));</string>
+   </property>
+  </widget>
   <zorder>labelPlantBack</zorder>
   <zorder>labelPlantCost</zorder>
   <zorder>labelPlantAvatar</zorder>
+  <zorder>labelPlantMask</zorder>
  </widget>
  <resources/>
  <connections/>

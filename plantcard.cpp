@@ -25,3 +25,20 @@ void PlantCard::setPlantCost(int cost)
 {
 	ui->labelPlantCost->setText(QString::number(cost));
 }
+
+void PlantCard::setCoolDown(double coolDown)
+{
+	if(coolDown == 1.)
+	{
+		ui->labelPlantMask->setStyleSheet("");
+	}
+	else
+	{
+		ui->labelPlantMask->setStyleSheet(QString("background-color:"
+			"qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0,"
+							 "stop:0 rgba(0, 0, 0, 127),"
+							 "stop:%1 rgba(0, 0, 0, 127),"
+							 "stop:%2 rgba(0, 0, 0, 191),"
+							 "stop:1 rgba(0, 0, 0, 191));").arg(coolDown).arg(coolDown + 1e-3));
+	}
+}
