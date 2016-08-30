@@ -5,12 +5,9 @@
 GameLogic::GameLogic(QObject *parent) : QObject(parent)
 {
 	addTimeFlag(1000, [](QObject *root) {
-		QPointer<Zombie> newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(1)->newInstance());
+		Zombie *newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(1)->newInstance());
 		newZombie->setPos(QPointF(11, qrand() % 5));
-
-		QList<QVariant> zombiesData(root->property("zombies").toList());
-		zombiesData.append(QVariant::fromValue(newZombie));
-		root->setProperty("zombies", zombiesData);
+		newZombie->onCreated(root);
 	});
 }
 

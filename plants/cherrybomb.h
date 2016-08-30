@@ -6,7 +6,7 @@
 class CherryBomb : public Plant
 {
 	Q_OBJECT
-	Q_CLASSINFO("staticImageSource", ":/plants/images/Plants/CherryBomb/0.gif")
+	Q_CLASSINFO("staticImageSource", ":/plants/images/Plants/CherryBomb/0.png")
 
 public:
 	Q_INVOKABLE CherryBomb(QObject *parent = 0);

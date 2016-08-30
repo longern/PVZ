@@ -12,7 +12,7 @@ Zombie::Zombie(QObject *parent) :
 void Zombie::onCreated(QObject *root)
 {
 	QList<QVariant> zombiesData(root->property("zombies").toList());
-	zombiesData.append(QVariant::fromValue(this));
+	zombiesData.append(QVariant::fromValue(QPointer<Zombie>(this)));
 	root->setProperty("zombies", zombiesData);
 }
 
