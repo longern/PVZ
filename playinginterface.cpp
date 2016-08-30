@@ -135,7 +135,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 		else
 			bulletLabel = (QLabel *)(bullet["img"].value<QPointer<QLabel>>());
 		bulletLabel->setProperty("currentTime", newCurrentTime);
-		bulletLabel->move(ui->widgetLawnArea->x() + bullet["pos"].toPointF().x() * cellSize.width() - 15,
+		bulletLabel->move(ui->widgetLawnArea->x() + bullet["pos"].toPointF().x() * cellSize.width(),
 						  ui->widgetLawnArea->y() + bullet["pos"].toPointF().y() * cellSize.height());
 	}
 	QList<QLabel *> bulletLabels = findChildren<QLabel *>("bullet", Qt::FindDirectChildrenOnly);
@@ -194,29 +194,29 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 		}
 		else if (p->objectName() == "widgetLawnArea")
 		{
-			if (!mGameStatus->property("gameStartTime").isNull() && !property("selectedPlant").isNull())
+			if (mGameStatus->property("gameStartTime").isNull() || property("selectedPlant").isNull())
+				return;
+
+			QSize mapSize = mGameStatus->property("mapSize").toSize();
+			QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());
+			QPoint relativePos = ui->widgetLawnArea->mapFrom(this, ev->pos());
+			QPoint plantPos = QPoint(qMin(relativePos.x() / cellSize.width(), mapSize.width() - 1),
+									 qMin(relativePos.y() / cellSize.height(), mapSize.height() - 1));
+
+			QPointer<Plant> newPlant = dynamic_cast<Plant *>(GetPlantClassByID(property("selectedPlant").toInt())->newInstance());
+			newPlant->setPos(QPointF(plantPos));
+			if (!newPlant->canPlant(mGameStatus))
 			{
-				QSize mapSize = mGameStatus->property("mapSize").toSize();
-				QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());
-				QPoint relativePos = ui->widgetLawnArea->mapFrom(this, ev->pos());
-				QPoint plantPos = QPoint(qMin(relativePos.x() / cellSize.width(), mapSize.width() - 1),
-										 qMin(relativePos.y() / cellSize.height(), mapSize.height() - 1));
-
-				QPointer<Plant> newPlant = dynamic_cast<Plant *>(GetPlantClassByID(property("selectedPlant").toInt())->newInstance());
-				newPlant->setPos(QPointF(plantPos));
-				if (!newPlant->canPlant(mGameStatus))
-				{
-					newPlant->deleteLater();
-					return;
-				}
-				newPlant->onPlanted(mGameStatus);
-
-				QList<QVariant> plantsData(mGameStatus->property("plants").toList());
-				plantsData.append(QVariant::fromValue(newPlant));
-				mGameStatus->setProperty("plants", plantsData);
-
-				setProperty("selectedPlant", QVariant());
+				newPlant->deleteLater();
+				return;
 			}
+			newPlant->onPlanted(mGameStatus);
+
+			QList<QVariant> plantsData(mGameStatus->property("plants").toList());
+			plantsData.append(QVariant::fromValue(newPlant));
+			mGameStatus->setProperty("plants", plantsData);
+
+			setProperty("selectedPlant", QVariant());
 			return;
 		}
 		p = p->parent();

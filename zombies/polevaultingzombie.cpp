@@ -73,6 +73,8 @@ void PoleVaultingZombie::onTimeout(QObject *root)
 		{
 			setProperty("state", QStringLiteral("moving"));
 			setProperty("high", false);
+			if (mHealthPoint > 270)
+				mHealthPoint = 270;
 			mMoveSpeed /= 2;
 		}
 		return;
