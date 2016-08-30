@@ -19,6 +19,15 @@ bool Plant::canPlant(QObject *root)
 	if (!lastPlantTime[metaObject()->className()].isNull() &&
 		currentTime - lastPlantTime[metaObject()->className()].toLongLong() < mCoolDown)
 		return false;
+
+	QList<QVariant> plantsData(root->property("plants").toList());
+	for (const QVariant &x : plantsData)
+	{
+		QPointer<Plant> plant = x.value<QPointer<Plant>>();
+		if (plant->pos() == mPlantPosition)
+			return false;
+	}
+
 	root->setProperty("lastPlantTime", lastPlantTime);
 	return true;
 }
