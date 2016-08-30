@@ -30,7 +30,7 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 
 	mGameStatus = new QObject(this);
 	mGameStatus->setProperty("mapSize", QSize(9, 5));
-	mGameStatus->setProperty("sunshine", 2000);
+	mGameStatus->setProperty("sunvalue", 2000);
 	mGameLogic = new GameLogic(this);
 	connect(mGameLogic, SIGNAL(gameFinished()), this, SLOT(onGameFinished()));
 
@@ -105,7 +105,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 		static QMap<QString, QPoint> zombieAnimationOffset;
 		if (zombieAnimationOffset.isEmpty())
 		{
-			zombieAnimationOffset["BasicZombie"] = QPoint(-65, -70);
+			zombieAnimationOffset["BasicZombie"] = QPoint(-65, -100);
 			zombieAnimationOffset["BucketheadZombie"] = QPoint(-65, -70);
 			zombieAnimationOffset["PoleVaultingZombie"] = QPoint(-190, -120);
 		}
@@ -114,7 +114,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 							   ui->widgetLawnArea->y() + zombie->pos().y() * cellSize.height()) +
 							   zombieAnimationOffset[zombie->metaObject()->className()]);
 	}
-	ui->labelSunValue->setText(QString::number(mGameStatus->property("sunshine").toInt()));
+	ui->labelSunValue->setText(QString::number(mGameStatus->property("sunvalue").toInt()));
 
 	qint64 newCurrentTime = mGameStatus->property("currentTime").toLongLong();
 	QList<QVariant> bullets = mGameStatus->property("bullets").toList();
@@ -202,10 +202,17 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 			else
 			{
 				QPointer<Plant> newPlant = dynamic_cast<Plant *>(GetPlantClassByID(clickedPlantIndex)->newInstance());
-				if (newPlant->cost() > mGameStatus->property("sunshine").toInt())
+				newPlant->setPos(QPointF(-1., -1.));
+				if (!newPlant->canPlant(mGameStatus))
 				{
 					newPlant->deleteLater();
 					return;
+				}
+				if (property("shovelSelected").toBool())
+				{
+					setProperty("shovelSelected", QVariant());
+					ui->labelShovel->show();
+					setCursor(Qt::ArrowCursor);
 				}
 				setProperty("selectedPlant", clickedPlantIndex);
 			}

@@ -20,7 +20,7 @@
    <string notr="true">background-repeat: none;
 font-family: &quot;Comic Sans MS&quot;;</string>
   </property>
-  <widget class="QLabel" name="labelBackground">
+  <widget class="QWidget" name="labelBackground" native="true">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -31,9 +31,6 @@ font-family: &quot;Comic Sans MS&quot;;</string>
    </property>
    <property name="styleSheet">
     <string notr="true">background-image: url(:/interface/images/interface/background1.jpg);</string>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="buttonMenu">
@@ -399,9 +396,9 @@ font-family: &quot;Comic Sans MS&quot;;</string>
   <widget class="QLabel" name="labelZombieWin">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>200</x>
      <y>50</y>
-     <width>511</width>
+     <width>500</width>
      <height>441</height>
     </rect>
    </property>

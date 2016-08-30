@@ -19,7 +19,7 @@ void SunFlower::onTimeout(QObject *root)
 	const int mProduceSpeed = 24000;
 	if ((newCurrentTime - plantTime) / mProduceSpeed > (oldCurrentTime - plantTime) / mProduceSpeed)
 	{
-		root->setProperty("sunshine", root->property("sunshine").toInt() + 25);
+		root->setProperty("sunvalue", root->property("sunvalue").toInt() + 25);
 	}
 	Plant::onTimeout(root);
 }

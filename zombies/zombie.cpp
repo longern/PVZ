@@ -9,6 +9,13 @@ Zombie::Zombie(QObject *parent) :
 	setProperty("state", QStringLiteral("moving"));
 }
 
+void Zombie::onCreated(QObject *root)
+{
+	QList<QVariant> zombiesData(root->property("zombies").toList());
+	zombiesData.append(QVariant::fromValue(this));
+	root->setProperty("zombies", zombiesData);
+}
+
 void Zombie::onTimeout(QObject *root)
 {
 	if (mHealthPoint <= 0.)

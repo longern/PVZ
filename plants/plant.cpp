@@ -6,20 +6,23 @@ Plant::Plant(QObject *parent) :
 	QObject(parent)
 {
 	mHealthPoint = 300;
+	mCoolDown = 7500;
 }
 
 bool Plant::canPlant(QObject *root)
 {
-	if (root->property("sunshine").toInt() < cost())
+	if (root->property("sunvalue").toInt() < cost())
 		return false;
 
+	qint64 currentTime = root->property("currentTime").toLongLong();
 	QList<QVariant> plantsData(root->property("plants").toList());
 	for (const QVariant &x : plantsData)
 	{
 		QPointer<Plant> plant = x.value<QPointer<Plant>>();
-		if (plant)
-			if (plant->pos() == mPlantPosition)
-				return false;
+		if (plant->pos() == mPlantPosition ||
+			(plant->metaObject()->className() == metaObject()->className() &&
+			currentTime - plant->property("plantTime").toLongLong() < mCoolDown))
+			return false;
 	}
 	return true;
 }
@@ -28,7 +31,7 @@ void Plant::onPlanted(QObject *root)
 {
 	qint64 newCurrentTime = root->property("currentTime").toLongLong();
 	setProperty("plantTime", newCurrentTime);
-	root->setProperty("sunshine", root->property("sunshine").toInt() - cost());
+	root->setProperty("sunvalue", root->property("sunvalue").toInt() - cost());
 }
 
 void Plant::onTimeout(QObject *root)

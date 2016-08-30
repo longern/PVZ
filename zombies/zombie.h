@@ -23,6 +23,7 @@ public:
 	int attackDamage() const { if (property("frozen").toBool()) return mAttackDamage / 2; else return mAttackDamage; }
 	double moveSpeed() const { if (property("frozen").toBool()) return mMoveSpeed / 2; else return mMoveSpeed; }
 
+	Q_INVOKABLE virtual void onCreated(QObject *root);
 	Q_INVOKABLE virtual void onTimeout(QObject *root);
 
 protected:

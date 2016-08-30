@@ -1,12 +1,17 @@
 #include "gamelogic.h"
 #include "plants/plants.h"
 #include "zombies/zombies.h"
-#include <QVariant>
-#include <QElapsedTimer>
 
 GameLogic::GameLogic(QObject *parent) : QObject(parent)
 {
+	addTimeFlag(1000, [](QObject *root) {
+		QPointer<Zombie> newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(1)->newInstance());
+		newZombie->setPos(QPointF(11, qrand() % 5));
 
+		QList<QVariant> zombiesData(root->property("zombies").toList());
+		zombiesData.append(QVariant::fromValue(newZombie));
+		root->setProperty("zombies", zombiesData);
+	});
 }
 
 void GameLogic::onGameStart(QObject *root)
@@ -77,13 +82,19 @@ void GameLogic::onTimeout(QObject *root)
 	}
 	root->setProperty("bullets", bullets);
 
-	if(oldCurrentTime < 1000 && newCurrentTime >= 1000)
+	for (int i = 0; i < timeFlags.size();)
 	{
-		QPointer<Zombie> newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(3)->newInstance());
-		newZombie->setPos(QPointF(8, qrand() % 5));
-
-		QList<QVariant> zombiesData(root->property("zombies").toList());
-		zombiesData.append(QVariant::fromValue(newZombie));
-		root->setProperty("zombies", zombiesData);
+		if(oldCurrentTime < timeFlags[i].first && newCurrentTime >= timeFlags[i].first)
+		{
+			timeFlags[i].second(root);
+			timeFlags.removeAt(i);
+		}
+		else
+			i++;
 	}
+}
+
+void GameLogic::addTimeFlag(qint64 timePoint, std::function<void (QObject *)> func)
+{
+	timeFlags.append(qMakePair(timePoint, func));
 }
