@@ -152,7 +152,8 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 		Plant *plant = dynamic_cast<Plant *>(GetPlantClassByID(i)->newInstance());
 		if (!lastPlantTime.isNull() && newCurrentTime - lastPlantTime.toLongLong() < plant->cd())
 			findChild<PlantCard *>("widgetPlantCard" + QString::number(i))->setCoolDown(double(newCurrentTime - lastPlantTime.toLongLong()) / plant->cd());
-		else if (plant->cost() > mGameStatus->property("sunvalue").toInt())
+		else if (plant->cost() > mGameStatus->property("sunvalue").toInt() ||
+				 property("selectedPlant").toInt() == i)
 			findChild<PlantCard *>("widgetPlantCard" + QString::number(i))->setCoolDown(0.);
 		else
 			findChild<PlantCard *>("widgetPlantCard" + QString::number(i))->setCoolDown(1.);
@@ -301,6 +302,7 @@ void PlayingInterface::on_buttonMenu_clicked()
 void PlayingInterface::onGameFinished()
 {
 	killTimer(timerId);
+	ui->labelZombieWin->raise();
 	ui->labelZombieWin->show();
 }
 

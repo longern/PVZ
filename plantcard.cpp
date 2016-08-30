@@ -39,6 +39,6 @@ void PlantCard::setCoolDown(double coolDown)
 							 "stop:0 rgba(0, 0, 0, 127),"
 							 "stop:%1 rgba(0, 0, 0, 127),"
 							 "stop:%2 rgba(0, 0, 0, 191),"
-							 "stop:1 rgba(0, 0, 0, 191));").arg(coolDown).arg(coolDown + 1e-3));
+							 "stop:1 rgba(0, 0, 0, 191));").arg(coolDown).arg(qMin(coolDown + 1e-3, 1.)));
 	}
 }
