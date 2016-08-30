@@ -14,10 +14,17 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 
 	for (int i = 1; i <= 5; i++)
 	{
-		QLabel *card = ui->widgetCardArea->findChild<QLabel *>("labelPlantAvatar" + QString::number(i));
+		QLabel *cardLabel = ui->widgetCardArea->findChild<QLabel *>("labelPlantAvatar" + QString::number(i));
+		QLabel *costLabel = ui->widgetCardArea->findChild<QLabel *>("labelPlantCost" + QString::number(i));
 		const QMetaObject *plantClass = GetPlantClassByID(i);
-		if (card && plantClass)
-			card->setPixmap(QPixmap(plantClass->classInfo(plantClass->indexOfClassInfo("staticImageSource")).value()).scaledToHeight(31, Qt::SmoothTransformation));
+		if (plantClass && cardLabel && costLabel)
+		{
+			Plant *plant = dynamic_cast<Plant *>(GetPlantClassByID(i)->newInstance());
+			int cost = plant->cost();
+			delete plant;
+			cardLabel->setPixmap(QPixmap(plantClass->classInfo(plantClass->indexOfClassInfo("staticImageSource")).value()).scaledToWidth(30, Qt::SmoothTransformation));
+			costLabel->setText(QString::number(cost));
+		}
 	}
 
 	mGameStatus = new QObject(this);
