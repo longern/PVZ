@@ -30,7 +30,7 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 
 	mGameStatus = new QObject(this);
 	mGameStatus->setProperty("mapSize", QSize(9, 5));
-	mGameStatus->setProperty("sunvalue", 2000);
+	mGameStatus->setProperty("sunvalue", 500);
 	mGameLogic = new GameLogic(this);
 	connect(mGameLogic, SIGNAL(gameFinished()), this, SLOT(onGameFinished()));
 
@@ -106,8 +106,8 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 		if (zombieAnimationOffset.isEmpty())
 		{
 			zombieAnimationOffset["BasicZombie"] = QPoint(-65, -100);
-			zombieAnimationOffset["BucketheadZombie"] = QPoint(-65, -70);
-			zombieAnimationOffset["PoleVaultingZombie"] = QPoint(-190, -120);
+			zombieAnimationOffset["BucketheadZombie"] = QPoint(-65, -100);
+			zombieAnimationOffset["PoleVaultingZombie"] = QPoint(-190, -130);
 		}
 		zombieMovieLabel->movie()->setSpeed(zombie->property("frozen").toBool() ? 50 : 100);
 		zombieMovieLabel->move(QPoint(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width(),

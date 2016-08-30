@@ -4,11 +4,22 @@
 
 GameLogic::GameLogic(QObject *parent) : QObject(parent)
 {
-	addTimeFlag(1000, [](QObject *root) {
-		Zombie *newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(1)->newInstance());
-		newZombie->setPos(QPointF(11, qrand() % 5));
-		newZombie->onCreated(root);
-	});
+	for (int i = 0; i < 30; i++)
+	{
+		addTimeFlag(i * 20000 + 10000, [i](QObject *root) {
+			int virus = int(i * sqrt(i));
+			int offset = 0;
+			while (virus > 1)
+			{
+				int zombieType = qrand() % qMin((virus + 1) / 3, 3) + 1;
+				virus -= zombieType * 3 - 1;
+				Zombie *newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(zombieType)->newInstance());
+				newZombie->setPos(QPointF(11. + offset / 10., qrand() % 5));
+				newZombie->onCreated(root);
+				offset++;
+			}
+		});
+	}
 }
 
 void GameLogic::onGameStart(QObject *root)
@@ -25,7 +36,13 @@ void GameLogic::onTimeout(QObject *root)
 	qint64 oldCurrentTime = root->property("lastFrameTime").toLongLong();
 	QSize mapSize = root->property("mapSize").toSize();
 
-	for (const QVariant &y : root->property("zombies").toList())
+	QList<QVariant> zombies = root->property("zombies").toList();
+	if (newCurrentTime > 620000 && zombies.isEmpty())
+	{
+		root->setProperty("winner", "plants");
+		emit gameFinished();
+	}
+	for (const QVariant &y : zombies)
 	{
 		Zombie *zombie = (Zombie *)(y.value<QPointer<Zombie>>());
 		if(zombie->hp() > 0 && zombie->pos().x() < -1.)
@@ -41,7 +58,7 @@ void GameLogic::onTimeout(QObject *root)
 	{
 		QMap<QString, QVariant> bullet(bullets[i].toMap());
 
-		if (bullet["pos"].toPointF().x() >= mapSize.width())
+		if (bullet["pos"].toPointF().x() >= mapSize.width() + 1)
 		{
 			bullets.removeAt(i);
 			continue;

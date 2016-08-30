@@ -29,17 +29,24 @@ void Zombie::onTimeout(QObject *root)
 	qint64 newCurrentTime = root->property("currentTime").toLongLong();
 	qint64 oldCurrentTime = root->property("lastFrameTime").toLongLong();
 
-	for (const QVariant &x : root->property("plants").toList())
+	if (mHealthPoint > 70.)
 	{
-		Plant *plant = (Plant *)(x.value<QPointer<Plant>>());
-		if (plant->pos().y() == mZombiePosition.y() &&
-		   mZombiePosition.x() - plant->pos().x() >= 0 &&
-		   mZombiePosition.x() - plant->pos().x() < 0.5)
+		for (const QVariant &x : root->property("plants").toList())
 		{
-			setProperty("state", QStringLiteral("attacking"));
-			plant->setHp(plant->hp() - (newCurrentTime - oldCurrentTime) * attackDamage() / 1000.);
-			return;
+			Plant *plant = (Plant *)(x.value<QPointer<Plant>>());
+			if (plant->pos().y() == mZombiePosition.y() &&
+			   mZombiePosition.x() - plant->pos().x() >= 0 &&
+			   mZombiePosition.x() - plant->pos().x() < 0.5)
+			{
+				setProperty("state", QStringLiteral("attacking"));
+				plant->setHp(plant->hp() - (newCurrentTime - oldCurrentTime) * attackDamage() / 1000.);
+				return;
+			}
 		}
+	}
+	else
+	{
+		mHealthPoint -= (newCurrentTime - oldCurrentTime) / 1000. * 35.;
 	}
 	setProperty("state", QStringLiteral("moving"));
 	mZombiePosition.rx() -= (newCurrentTime - oldCurrentTime) * moveSpeed();
