@@ -15,15 +15,11 @@ bool Plant::canPlant(QObject *root)
 		return false;
 
 	qint64 currentTime = root->property("currentTime").toLongLong();
-	QList<QVariant> plantsData(root->property("plants").toList());
-	for (const QVariant &x : plantsData)
-	{
-		QPointer<Plant> plant = x.value<QPointer<Plant>>();
-		if (plant->pos() == mPlantPosition ||
-			(plant->metaObject()->className() == metaObject()->className() &&
-			currentTime - plant->property("plantTime").toLongLong() < mCoolDown))
-			return false;
-	}
+	QMap<QString, QVariant> lastPlantTime = root->property("lastPlantTime").toMap();
+	if (!lastPlantTime[metaObject()->className()].isNull() &&
+		currentTime - lastPlantTime[metaObject()->className()].toLongLong() < mCoolDown)
+		return false;
+	root->setProperty("lastPlantTime", lastPlantTime);
 	return true;
 }
 
@@ -31,6 +27,9 @@ void Plant::onPlanted(QObject *root)
 {
 	qint64 newCurrentTime = root->property("currentTime").toLongLong();
 	setProperty("plantTime", newCurrentTime);
+	QMap<QString, QVariant> lastPlantTime = root->property("lastPlantTime").toMap();
+	lastPlantTime[metaObject()->className()] = newCurrentTime;
+	root->setProperty("lastPlantTime", lastPlantTime);
 	root->setProperty("sunvalue", root->property("sunvalue").toInt() - cost());
 }
 
