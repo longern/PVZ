@@ -25,7 +25,6 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 			card->setPlantAvatar(plantClass->classInfo(plantClass->indexOfClassInfo("staticImageSource")).value());
 			card->setPlantCost(cost);
 		}
-		card->setCoolDown(0.3);
 	}
 
 	mGameStatus = new QObject(this);
