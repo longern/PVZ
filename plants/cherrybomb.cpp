@@ -7,7 +7,7 @@ CherryBomb::CherryBomb(QObject *parent) :
 	mAttackDamage = 1800;
 	mAttackSpeed = 1200;
 	mCost = 150;
-	mCoolDown = 30000;
+	mCoolDown = 50000;
 }
 
 QString CherryBomb::imgSrc() const

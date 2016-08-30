@@ -7,14 +7,21 @@ GameLogic::GameLogic(QObject *parent) : QObject(parent)
 	for (int i = 0; i < 30; i++)
 	{
 		addTimeFlag(i * 20000 + 10000, [i](QObject *root) {
-			int virus = int(i * sqrt(i));
+			int virus = int(std::pow(i, 1.2)) + 1;
 			int offset = 0;
+			int lastTrack = -1;
 			while (virus > 1)
 			{
 				int zombieType = qrand() % qMin((virus + 1) / 3, 3) + 1;
 				virus -= zombieType * 3 - 1;
 				Zombie *newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(zombieType)->newInstance());
-				newZombie->setPos(QPointF(11. + offset / 10., qrand() % 5));
+				int track;
+				do
+				{
+					track = qrand() % 5;
+				} while (track != lastTrack);
+				newZombie->setPos(QPointF(11. + offset / 10., track));
+				lastTrack = track;
 				newZombie->onCreated(root);
 				offset++;
 			}

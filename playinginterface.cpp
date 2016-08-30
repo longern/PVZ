@@ -211,6 +211,8 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 	do {
 		if (p->objectName().startsWith("widgetPlantCard"))
 		{
+			if (mGameStatus->property("gameStartTime").isNull())
+				return;
 			int clickedPlantIndex = p->objectName().mid(15).toInt();
 			if (!property("selectedPlant").isNull() && property("selectedPlant").toInt() == clickedPlantIndex)
 				setProperty("selectedPlant", QVariant());
