@@ -15,16 +15,15 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 
 	for (int i = 1; i <= 5; i++)
 	{
-		QLabel *cardLabel = ui->widgetCardArea->findChild<QLabel *>("labelPlantAvatar" + QString::number(i));
-		QLabel *costLabel = ui->widgetCardArea->findChild<QLabel *>("labelPlantCost" + QString::number(i));
+		PlantCard *card = ui->widgetCardArea->findChild<PlantCard *>("widgetPlantCard" + QString::number(i));
 		const QMetaObject *plantClass = GetPlantClassByID(i);
-		if (plantClass && cardLabel && costLabel)
+		if (plantClass && card)
 		{
 			Plant *plant = dynamic_cast<Plant *>(GetPlantClassByID(i)->newInstance());
 			int cost = plant->cost();
 			delete plant;
-			cardLabel->setPixmap(QPixmap(plantClass->classInfo(plantClass->indexOfClassInfo("staticImageSource")).value()).scaledToWidth(30, Qt::SmoothTransformation));
-			costLabel->setText(QString::number(cost));
+			card->setPlantAvatar(plantClass->classInfo(plantClass->indexOfClassInfo("staticImageSource")).value());
+			card->setPlantCost(cost);
 		}
 	}
 

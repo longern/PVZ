@@ -15,6 +15,10 @@ public:
 	explicit PlantCard(QWidget *parent = 0);
 	~PlantCard();
 
+public slots:
+	void setPlantAvatar(const QString &avatar);
+	void setPlantCost(int cost);
+
 private:
 	Ui::PlantCard *ui;
 };

@@ -139,7 +139,7 @@ font-family: &quot;Comic Sans MS&quot;;</string>
       <height>63</height>
      </rect>
     </property>
-    <widget class="QWidget" name="widgetPlantCard1" native="true">
+    <widget class="PlantCard" name="widgetPlantCard1" native="true">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -148,40 +148,8 @@ font-family: &quot;Comic Sans MS&quot;;</string>
        <height>63</height>
       </rect>
      </property>
-     <property name="styleSheet">
-      <string notr="true">#widgetPlantCard1 { background-image: url(:/interface/images/interface/Plant_Card.png); }</string>
-     </property>
-     <widget class="QLabel" name="labelPlantCost1">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>47</y>
-        <width>37</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>0</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelPlantAvatar1">
-      <property name="geometry">
-       <rect>
-        <x>9</x>
-        <y>11</y>
-        <width>30</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
     </widget>
-    <widget class="QWidget" name="widgetPlantCard2" native="true">
+    <widget class="PlantCard" name="widgetPlantCard2" native="true">
      <property name="geometry">
       <rect>
        <x>59</x>
@@ -190,40 +158,8 @@ font-family: &quot;Comic Sans MS&quot;;</string>
        <height>63</height>
       </rect>
      </property>
-     <property name="styleSheet">
-      <string notr="true">#widgetPlantCard2 { background-image: url(:/interface/images/interface/Plant_Card.png); }</string>
-     </property>
-     <widget class="QLabel" name="labelPlantCost2">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>47</y>
-        <width>37</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>0</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelPlantAvatar2">
-      <property name="geometry">
-       <rect>
-        <x>9</x>
-        <y>11</y>
-        <width>30</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
     </widget>
-    <widget class="QWidget" name="widgetPlantCard3" native="true">
+    <widget class="PlantCard" name="widgetPlantCard3" native="true">
      <property name="geometry">
       <rect>
        <x>115</x>
@@ -232,40 +168,8 @@ font-family: &quot;Comic Sans MS&quot;;</string>
        <height>63</height>
       </rect>
      </property>
-     <property name="styleSheet">
-      <string notr="true">#widgetPlantCard3 { background-image: url(:/interface/images/interface/Plant_Card.png); }</string>
-     </property>
-     <widget class="QLabel" name="labelPlantCost3">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>47</y>
-        <width>37</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>0</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelPlantAvatar3">
-      <property name="geometry">
-       <rect>
-        <x>9</x>
-        <y>11</y>
-        <width>30</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
     </widget>
-    <widget class="QWidget" name="widgetPlantCard4" native="true">
+    <widget class="PlantCard" name="widgetPlantCard4" native="true">
      <property name="geometry">
       <rect>
        <x>173</x>
@@ -274,40 +178,8 @@ font-family: &quot;Comic Sans MS&quot;;</string>
        <height>63</height>
       </rect>
      </property>
-     <property name="styleSheet">
-      <string notr="true">#widgetPlantCard4 { background-image: url(:/interface/images/interface/Plant_Card.png); }</string>
-     </property>
-     <widget class="QLabel" name="labelPlantCost4">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>47</y>
-        <width>37</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>0</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelPlantAvatar4">
-      <property name="geometry">
-       <rect>
-        <x>9</x>
-        <y>11</y>
-        <width>30</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
     </widget>
-    <widget class="QWidget" name="widgetPlantCard5" native="true">
+    <widget class="PlantCard" name="widgetPlantCard5" native="true">
      <property name="geometry">
       <rect>
        <x>230</x>
@@ -316,38 +188,6 @@ font-family: &quot;Comic Sans MS&quot;;</string>
        <height>63</height>
       </rect>
      </property>
-     <property name="styleSheet">
-      <string notr="true">#widgetPlantCard5 { background-image: url(:/interface/images/interface/Plant_Card.png); }</string>
-     </property>
-     <widget class="QLabel" name="labelPlantCost5">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>47</y>
-        <width>37</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>0</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelPlantAvatar5">
-      <property name="geometry">
-       <rect>
-        <x>9</x>
-        <y>11</y>
-        <width>30</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
     </widget>
    </widget>
    <widget class="QLabel" name="labelShovelBack">
@@ -407,6 +247,14 @@ font-family: &quot;Comic Sans MS&quot;;</string>
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlantCard</class>
+   <extends>QWidget</extends>
+   <header>plantcard.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="image.qrc"/>
  </resources>
