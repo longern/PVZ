@@ -30,6 +30,7 @@ public:
 	Q_INVOKABLE virtual bool canPlant(QObject *root);
 	Q_INVOKABLE virtual void onPlanted(QObject *root);
 	Q_INVOKABLE virtual void onTimeout(QObject *root);
+	Q_INVOKABLE virtual void onRemoved(QObject *root);
 
 protected:
 	QPointF mPlantPosition;

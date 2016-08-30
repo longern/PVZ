@@ -35,9 +35,14 @@ void Plant::onTimeout(QObject *root)
 {
 	if (mHealthPoint <= 0.)
 	{
-		deleteLater();
-		QList<QVariant> plantsData(root->property("plants").toList());
-		plantsData.removeOne(QVariant::fromValue(QPointer<Plant>(this)));
-		root->setProperty("plants", plantsData);
+		onRemoved(root);
 	}
+}
+
+void Plant::onRemoved(QObject *root)
+{
+	deleteLater();
+	QList<QVariant> plantsData(root->property("plants").toList());
+	plantsData.removeOne(QVariant::fromValue(QPointer<Plant>(this)));
+	root->setProperty("plants", plantsData);
 }
