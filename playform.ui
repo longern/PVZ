@@ -359,7 +359,7 @@ font-family: &quot;Comic Sans MS&quot;;</string>
       <x>435</x>
       <y>0</y>
       <width>71</width>
-      <height>35</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -367,6 +367,19 @@ font-family: &quot;Comic Sans MS&quot;;</string>
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelShovel">
+    <property name="geometry">
+     <rect>
+      <x>444</x>
+      <y>6</y>
+      <width>53</width>
+      <height>57</height>
+     </rect>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="image.qrc">:/interface/images/interface/Shovel.png</pixmap>
     </property>
    </widget>
   </widget>
