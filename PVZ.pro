@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     gamelogic.cpp \
     zombies/bucketheadzombie.cpp \
     zombies/polevaultingzombie.cpp \
-	plants/cherrybomb.cpp
+	plants/cherrybomb.cpp \
+    plantcard.cpp
 
 HEADERS  += mainwindow.h \
     welcomeinterface.h \
@@ -53,11 +54,13 @@ HEADERS  += mainwindow.h \
     gamelogic.h \
     zombies/bucketheadzombie.h \
     zombies/polevaultingzombie.h \
-	plants/cherrybomb.h
+	plants/cherrybomb.h \
+    plantcard.h
 
 FORMS    += \
     welcomeform.ui \
-    playform.ui
+    playform.ui \
+    plantcard.ui
 
 RESOURCES += \
     image.qrc \
