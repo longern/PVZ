@@ -10,6 +10,7 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 	ui(new Ui::PlayForm)
 {
 	ui->setupUi(this);
+	ui->labelPlantWin->hide();
 	ui->labelZombieWin->hide();
 	ui->labelShovel->setAttribute(Qt::WA_TransparentForMouseEvents);
 
@@ -373,8 +374,16 @@ void PlayingInterface::onGameFinished()
 {
 	killTimer(timerId);
 	timerId = 0;
-	ui->labelZombieWin->raise();
-	ui->labelZombieWin->show();
+	if (mGameStatus->property("winner").toString() == "plants")
+	{
+		ui->labelPlantWin->raise();
+		ui->labelPlantWin->show();
+	}
+	else
+	{
+		ui->labelZombieWin->raise();
+		ui->labelZombieWin->show();
+	}
 }
 
 QPointF PlayingInterface::screenToLawn(QPoint point)

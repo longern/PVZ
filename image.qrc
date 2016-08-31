@@ -18,6 +18,7 @@
         <file>images/interface/StartReady.png</file>
         <file>images/interface/StartSet.png</file>
         <file>images/interface/ShovelBack.png</file>
+        <file>images/interface/trophy.png</file>
     </qresource>
     <qresource prefix="/plants">
         <file>images/Plants/Peashooter/Peashooter.gif</file>

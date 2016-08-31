@@ -246,6 +246,19 @@ font-family: &quot;Comic Sans MS&quot;;</string>
     <pixmap resource="image.qrc">:/interface/images/interface/ZombiesWon.png</pixmap>
    </property>
   </widget>
+  <widget class="QLabel" name="labelPlantWin">
+   <property name="geometry">
+    <rect>
+     <x>365</x>
+     <y>190</y>
+     <width>170</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/interface/images/interface/trophy.png);</string>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
