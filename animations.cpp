@@ -26,7 +26,7 @@ void PlayingInterface::onAnimationFinished()
 		QSequentialAnimationGroup *seqAni = new QSequentialAnimationGroup(this);
 		QPropertyAnimation *propAni;
 		seqAni->addPause(1500);
-		propAni = new QPropertyAnimation(ui->labelBackground, "pos", this);
+		propAni = new QPropertyAnimation(ui->widgetBackground, "pos", this);
 		propAni->setDuration(2000);
 		propAni->setEasingCurve(QEasingCurve(QEasingCurve::InOutCubic));
 		propAni->setKeyValueAt(0., QPoint(0, 0));
@@ -39,7 +39,7 @@ void PlayingInterface::onAnimationFinished()
 		propAni->setKeyValueAt(1., QPoint(0, 0));
 		seqAni->addAnimation(propAni);
 		seqAni->addPause(2000);
-		propAni = new QPropertyAnimation(ui->labelBackground, "pos", this);
+		propAni = new QPropertyAnimation(ui->widgetBackground, "pos", this);
 		propAni->setDuration(1500);
 		propAni->setEasingCurve(QEasingCurve(QEasingCurve::InOutCubic));
 		propAni->setKeyValueAt(0., QPoint(-500, 0));

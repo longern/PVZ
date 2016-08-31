@@ -20,7 +20,7 @@
    <string notr="true">background-repeat: none;
 font-family: &quot;Comic Sans MS&quot;;</string>
   </property>
-  <widget class="QWidget" name="labelBackground" native="true">
+  <widget class="QWidget" name="widgetBackground" native="true">
    <property name="geometry">
     <rect>
      <x>0</x>
