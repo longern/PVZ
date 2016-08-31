@@ -49,6 +49,7 @@ void GameLogic::onGameStart(QObject *root)
 	elapsedTimer.start();
 	root->setProperty("gameStartTime", QVariant(elapsedTimer.msecsSinceReference()));
 	root->setProperty("currentTime", QVariant(qint64(0)));
+	root->setProperty("defenceTime", 800000);
 }
 
 void GameLogic::onTimeout(QObject *root)
@@ -58,7 +59,7 @@ void GameLogic::onTimeout(QObject *root)
 	QSize mapSize = root->property("mapSize").toSize();
 
 	QList<QVariant> zombies = root->property("zombies").toList();
-	if (newCurrentTime > 800000 && zombies.isEmpty())
+	if (newCurrentTime > root->property("defenceTime").toInt() && zombies.isEmpty())
 	{
 		root->setProperty("winner", "plants");
 		emit gameFinished();

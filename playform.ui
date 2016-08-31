@@ -259,6 +259,25 @@ font-family: &quot;Comic Sans MS&quot;;</string>
     <string notr="true">background-image: url(:/interface/images/interface/trophy.png);</string>
    </property>
   </widget>
+  <widget class="QLabel" name="labelDefenceTime">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>575</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Comic Sans MS</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Defence Time:</string>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
