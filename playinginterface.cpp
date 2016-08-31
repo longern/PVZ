@@ -145,7 +145,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 			bulletLabel = (QLabel *)(bullet["img"].value<QPointer<QLabel>>());
 		bulletLabel->setProperty("currentTime", newCurrentTime);
 		bulletLabel->move(ui->widgetLawnArea->x() + bullet["pos"].toPointF().x() * cellSize.width(),
-						  ui->widgetLawnArea->y() + bullet["pos"].toPointF().y() * cellSize.height());
+						  ui->widgetLawnArea->y() + bullet["pos"].toPointF().y() * cellSize.height() - 7);
 	}
 	QList<QLabel *> bulletLabels = findChildren<QLabel *>("bullet", Qt::FindDirectChildrenOnly);
 	for (QLabel *x : bulletLabels)
