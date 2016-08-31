@@ -46,5 +46,7 @@
         <file>images/Zombies/Zombie/0.gif</file>
         <file>images/Zombies/PoleVaultingZombie/PoleVaultingZombieJump.gif</file>
         <file>images/Zombies/PoleVaultingZombie/PoleVaultingZombieJump2.gif</file>
+        <file>images/Zombies/ConeheadZombie/ConeheadZombie.gif</file>
+        <file>images/Zombies/ConeheadZombie/ConeheadZombieAttack.gif</file>
     </qresource>
 </RCC>

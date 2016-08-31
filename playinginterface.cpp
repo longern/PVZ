@@ -105,9 +105,10 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 		static QMap<QString, QPoint> zombieAnimationOffset;
 		if (zombieAnimationOffset.isEmpty())
 		{
-			zombieAnimationOffset["BasicZombie"] = QPoint(-65, -100);
-			zombieAnimationOffset["BucketheadZombie"] = QPoint(-65, -100);
+			zombieAnimationOffset["BasicZombie"] = QPoint(-65, -110);
+			zombieAnimationOffset["ConeheadZombie"] = QPoint(-85, -110);
 			zombieAnimationOffset["PoleVaultingZombie"] = QPoint(-190, -130);
+			zombieAnimationOffset["BucketheadZombie"] = QPoint(-65, -110);
 		}
 		zombieMovieLabel->movie()->setSpeed(zombie->property("frozen").toBool() ? 50 : 100);
 		zombieMovieLabel->move(QPoint(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width(),
