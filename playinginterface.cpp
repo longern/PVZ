@@ -129,7 +129,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 	for (int i = 0; i < bullets.length(); i++)
 	{
 		QMap<QString, QVariant> bullet = bullets[i].toMap();
-		QLabel *bulletLabel;;
+		QLabel *bulletLabel;
 		if (bullet["img"].isNull())
 		{
 			bulletLabel = new QLabel(this);
