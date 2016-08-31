@@ -7,7 +7,7 @@ GameLogic::GameLogic(QObject *parent) : QObject(parent)
 	for (int i = 0; i < 30; i++)
 	{
 		addTimeFlag(i * 20000 + 10000, [i](QObject *root) {
-			int virus = int(std::pow(i, 1.2)) + 1;
+			int virus = int(std::pow(i, 1.5) / 2) + 2;
 			int offset = 0;
 			int lastTrack = -1;
 			while (virus > 1)
@@ -28,9 +28,9 @@ GameLogic::GameLogic(QObject *parent) : QObject(parent)
 		});
 	}
 
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 60; i++)
 	{
-		addTimeFlag(6000 * i, [](QObject *root) {
+		addTimeFlag(10000 * i, [](QObject *root) {
 			QSize mapSize = root->property("mapSize").toSize();
 			QList<QVariant> sunshineList = root->property("sunshineList").toList();
 			QMap<QString, QVariant> sunshine;
