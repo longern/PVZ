@@ -52,7 +52,7 @@ void JackInTheBoxZombie::onTimeout(QObject *root)
 			for (const QVariant &x : root->property("plants").toList())
 			{
 				Plant *plant = (Plant *)(x.value<QPointer<Plant>>());
-				if (sqrt(pow(plant->pos().y() - mZombiePosition.y(), 2) + pow(mZombiePosition.x() - plant->pos().x(), 2)) <= 1.5)
+				if (sqrt(pow(plant->pos().y() - mZombiePosition.y(), 2) + pow(mZombiePosition.x() - plant->pos().x(), 2)) <= 1.81)
 					plant->setHp(plant->hp() - 1800);
 			}
 			deleteLater();
