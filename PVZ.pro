@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     zombies/polevaultingzombie.cpp \
 	plants/cherrybomb.cpp \
     plantcard.cpp \
-    zombies/coneheadzombie.cpp
+    zombies/coneheadzombie.cpp \
+    zombies/jackintheboxzombie.cpp
 
 HEADERS  += mainwindow.h \
     welcomeinterface.h \
@@ -57,7 +58,8 @@ HEADERS  += mainwindow.h \
     zombies/polevaultingzombie.h \
 	plants/cherrybomb.h \
     plantcard.h \
-    zombies/coneheadzombie.h
+    zombies/coneheadzombie.h \
+    zombies/jackintheboxzombie.h
 
 FORMS    += \
     welcomeform.ui \
