@@ -4,7 +4,7 @@
 
 GameLogic::GameLogic(QObject *parent) : QObject(parent)
 {
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 40; i++)
 	{
 		addTimeFlag(i * 20000 + 10000, [i](QObject *root) {
 			int virus = int(std::pow(i, 1.5) / 2) + 2;
@@ -28,7 +28,7 @@ GameLogic::GameLogic(QObject *parent) : QObject(parent)
 		});
 	}
 
-	for (int i = 0; i < 60; i++)
+	for (int i = 0; i < 80; i++)
 	{
 		addTimeFlag(10000 * i, [](QObject *root) {
 			QSize mapSize = root->property("mapSize").toSize();
@@ -58,7 +58,7 @@ void GameLogic::onTimeout(QObject *root)
 	QSize mapSize = root->property("mapSize").toSize();
 
 	QList<QVariant> zombies = root->property("zombies").toList();
-	if (newCurrentTime > 620000 && zombies.isEmpty())
+	if (newCurrentTime > 800000 && zombies.isEmpty())
 	{
 		root->setProperty("winner", "plants");
 		emit gameFinished();
