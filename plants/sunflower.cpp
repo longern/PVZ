@@ -19,7 +19,13 @@ void SunFlower::onTimeout(QObject *root)
 	const int mProduceSpeed = 24000;
 	if ((newCurrentTime - plantTime) / mProduceSpeed > (oldCurrentTime - plantTime) / mProduceSpeed)
 	{
-		root->setProperty("sunvalue", root->property("sunvalue").toInt() + 25);
+		QList<QVariant> sunshineList = root->property("sunshineList").toList();
+		QMap<QString, QVariant> sunshine;
+		sunshine["type"] = QStringLiteral("normal");
+		sunshine["value"] = 25;
+		sunshine["pos"] = mPlantPosition;
+		sunshineList.append(sunshine);
+		root->setProperty("sunshineList", sunshineList);
 	}
 	Plant::onTimeout(root);
 }

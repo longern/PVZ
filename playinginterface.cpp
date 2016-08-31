@@ -153,6 +153,34 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 			x->deleteLater();
 	mGameStatus->setProperty("bullets", bullets);
 
+	QList<QVariant> sunshineList = mGameStatus->property("sunshineList").toList();
+	for (int i = 0; i < sunshineList.length(); i++)
+	{
+		QMap<QString, QVariant> sunshine = sunshineList[i].toMap();
+		QLabel *sunshineLabel;
+		if (sunshine["img"].isNull())
+		{
+			sunshineLabel = createDynamicImage(":/interface/images/interface/Sun.gif", this);
+			sunshineLabel->setObjectName("sunshine");
+			sunshine["img"] = QVariant::fromValue(QPointer<QLabel>(sunshineLabel));
+			sunshineLabel->resize(79, 79);
+			QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect;
+			sunshineLabel->setGraphicsEffect(opacityEffect);
+			QPropertyAnimation *ani = new QPropertyAnimation(opacityEffect, "opacity", sunshineLabel);
+			ani->setDuration(500);
+			ani->setStartValue(0.);
+			ani->setEndValue(.9);
+			ani->start();
+			sunshineLabel->show();
+			sunshineList[i] = sunshine;
+		}
+		else
+			sunshineLabel = (QLabel *)(sunshine["img"].value<QPointer<QLabel>>());
+		sunshineLabel->move(ui->widgetLawnArea->x() + sunshine["pos"].toPointF().x() * cellSize.width(),
+						  ui->widgetLawnArea->y() + sunshine["pos"].toPointF().y() * cellSize.height());
+	}
+	mGameStatus->setProperty("sunshineList", sunshineList);
+
 	QMap<QString, QVariant> lastPlantTimeList = mGameStatus->property("lastPlantTime").toMap();
 	for (int i = 1; i <= 5; i++)
 	{
@@ -211,6 +239,35 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 			setProperty("selectedPlant", QVariant());
 			ui->labelShovel->hide();
 			setCursor(QCursor(QPixmap(":/interface/images/interface/Shovel.png"), 1, 51));
+		}
+		return;
+	}
+
+	if (clickedObject->objectName() == "sunshine")
+	{
+		QList<QVariant> sunshineList = mGameStatus->property("sunshineList").toList();
+		for (int i = 0; i < sunshineList.length(); i++)
+		{
+			QMap<QString, QVariant> sunshine = sunshineList[i].toMap();
+			QLabel *sunshineLabel;
+			if (sunshine["img"].isNull())
+				continue;
+			sunshineLabel = (QLabel *)(sunshine["img"].value<QPointer<QLabel>>());
+			if (sunshineLabel == clickedObject)
+			{
+				mGameStatus->setProperty("sunvalue", mGameStatus->property("sunvalue").toInt() + sunshine["value"].toInt());
+				sunshineList.removeAt(i);
+				QPropertyAnimation *ani = new QPropertyAnimation(sunshineLabel, "pos");
+				ani->setDuration(500);
+				ani->setEasingCurve(QEasingCurve::OutCubic);
+				ani->setStartValue(sunshineLabel->pos());
+				ani->setEndValue(QPoint(0, 0));
+				sunshineLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+				connect(ani, SIGNAL(finished()), sunshineLabel, SLOT(deleteLater()));
+				ani->start();
+				mGameStatus->setProperty("sunshineList", sunshineList);
+				return;
+			}
 		}
 		return;
 	}
