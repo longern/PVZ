@@ -80,7 +80,13 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 		}
 	}
 
-	for (const QVariant &x : mGameStatus->property("zombies").toList())
+	QList<QVariant> zombies = mGameStatus->property("zombies").toList();
+	qSort(zombies.begin(), zombies.end(), [](const QVariant &a, const QVariant &b) {
+		Zombie *zombieA = (Zombie *)(a.value<QPointer<Zombie>>());
+		Zombie *zombieB = (Zombie *)(b.value<QPointer<Zombie>>());
+		return zombieA->pos().y() < zombieB->pos().y();
+	});
+	for (const QVariant &x : zombies)
 	{
 		Zombie *zombie = (Zombie *)(x.value<QPointer<Zombie>>());
 		connect(zombie, SIGNAL(destroyed(QObject*)), this, SLOT(onCreatureDestroyed(QObject*)), Qt::UniqueConnection);
@@ -114,6 +120,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 		zombieMovieLabel->move(QPoint(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width(),
 							   ui->widgetLawnArea->y() + zombie->pos().y() * cellSize.height()) +
 							   zombieAnimationOffset[zombie->metaObject()->className()]);
+		zombieMovieLabel->raise();
 	}
 	ui->labelSunValue->setText(QString::number(mGameStatus->property("sunvalue").toInt()));
 
