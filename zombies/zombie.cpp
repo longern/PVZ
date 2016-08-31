@@ -46,7 +46,7 @@ void Zombie::onTimeout(QObject *root)
 	}
 	else
 	{
-		mHealthPoint -= (newCurrentTime - oldCurrentTime) / 1000. * 35.;
+		mHealthPoint -= (newCurrentTime - oldCurrentTime) / 1000. * 15.;
 	}
 	setProperty("state", QStringLiteral("moving"));
 	mZombiePosition.rx() -= (newCurrentTime - oldCurrentTime) * moveSpeed();

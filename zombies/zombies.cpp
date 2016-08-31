@@ -6,7 +6,8 @@ const QMetaObject *GetZombieClassByID(int id)
 		&BasicZombie::staticMetaObject,
 		&ConeheadZombie::staticMetaObject,
 		&PoleVaultingZombie::staticMetaObject,
-		&BucketheadZombie::staticMetaObject
+		&BucketheadZombie::staticMetaObject,
+		&JackInTheBoxZombie::staticMetaObject
 	};
 
 	if (id >= 1 && id <= zombieClasses.length())

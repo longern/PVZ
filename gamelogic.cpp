@@ -12,7 +12,7 @@ GameLogic::GameLogic(QObject *parent) : QObject(parent)
 			int lastTrack = -1;
 			while (virus > 1)
 			{
-				int zombieType = qrand() % qMin((virus + 1) / 3, 4) + 1;
+				int zombieType = qrand() % qMin((virus + 1) / 3, 5) + 1;
 				virus -= zombieType * 3 - 1;
 				Zombie *newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(zombieType)->newInstance());
 				int track;

@@ -8,7 +8,9 @@ BasicZombie::BasicZombie(QObject *parent) :
 
 QString BasicZombie::imgSrc() const
 {
-	if (property("state").toString() == "attacking")
+	if (mHealthPoint <= 70)
+		return QStringLiteral(":/zombies/images/Zombies/Zombie/ZombieLostHead.gif");
+	else if (property("state").toString() == "attacking")
 		return QStringLiteral(":/zombies/images/Zombies/Zombie/ZombieAttack.gif");
 	else
 		return QStringLiteral(":/zombies/images/Zombies/Zombie/Zombie.gif");
