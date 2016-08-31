@@ -29,7 +29,7 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 
 	mGameStatus = new QObject(this);
 	mGameStatus->setProperty("mapSize", QSize(9, 5));
-	mGameStatus->setProperty("sunvalue", 500);
+	mGameStatus->setProperty("sunvalue", 200);
 	mGameLogic = new GameLogic(this);
 	connect(mGameLogic, SIGNAL(gameFinished()), this, SLOT(onGameFinished()));
 
@@ -51,6 +51,9 @@ QLabel *PlayingInterface::createDynamicImage(const QString &imgSrc, QWidget *par
 
 void PlayingInterface::paintEvent(QPaintEvent *)
 {
+	if (timerId == 0)
+		return;
+
 	QSize mapSize = mGameStatus->property("mapSize").toSize();
 	QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());
 
@@ -369,6 +372,7 @@ void PlayingInterface::on_buttonMenu_clicked()
 void PlayingInterface::onGameFinished()
 {
 	killTimer(timerId);
+	timerId = 0;
 	ui->labelZombieWin->raise();
 	ui->labelZombieWin->show();
 }
