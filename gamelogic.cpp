@@ -27,6 +27,20 @@ GameLogic::GameLogic(QObject *parent) : QObject(parent)
 			}
 		});
 	}
+
+	for (int i = 0; i < 30; i++)
+	{
+		addTimeFlag(6000 * i, [](QObject *root) {
+			QSize mapSize = root->property("mapSize").toSize();
+			QList<QVariant> sunshineList = root->property("sunshineList").toList();
+			QMap<QString, QVariant> sunshine;
+			sunshine["type"] = QStringLiteral("auto");
+			sunshine["value"] = 25;
+			sunshine["pos"] = QPointF(qrand() / (RAND_MAX - 1.) * mapSize.width() - 0.5 , 0);
+			sunshineList.append(sunshine);
+			root->setProperty("sunshineList", sunshineList);
+		});
+	}
 }
 
 void GameLogic::onGameStart(QObject *root)
@@ -102,6 +116,18 @@ void GameLogic::onTimeout(QObject *root)
 		}
 	}
 	root->setProperty("bullets", bullets);
+
+	QList<QVariant> sunshineList = root->property("sunshineList").toList();
+	for (QVariant &x : sunshineList)
+	{
+		QMap<QString, QVariant> sunshine = x.toMap();
+		if (sunshine["type"].toString() == "auto" && sunshine["pos"].toPointF().y() < mapSize.height() - 1.)
+		{
+			sunshine["pos"] = sunshine["pos"].toPointF() + QPointF(0, (newCurrentTime - oldCurrentTime) / 1000. * 0.3);
+			x = sunshine;
+		}
+	}
+	root->setProperty("sunshineList", sunshineList);
 
 	for (int i = 0; i < timeFlags.size();)
 	{
