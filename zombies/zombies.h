@@ -2,6 +2,7 @@
 #define ZOMBIES
 
 #include "basiczombie.h"
+#include "coneheadzombie.h"
 #include "polevaultingzombie.h"
 #include "bucketheadzombie.h"
 

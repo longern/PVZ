@@ -2,15 +2,14 @@
 
 const QMetaObject *GetZombieClassByID(int id)
 {
-	switch (id)
-	{
-	case 1:
-		return &BasicZombie::staticMetaObject;
-	case 2:
-		return &PoleVaultingZombie::staticMetaObject;
-	case 3:
-		return &BucketheadZombie::staticMetaObject;
-	default:
-		return 0;
-	}
+	static QList<const QMetaObject *> zombieClasses = {
+		&BasicZombie::staticMetaObject,
+		&ConeheadZombie::staticMetaObject,
+		&PoleVaultingZombie::staticMetaObject,
+		&BucketheadZombie::staticMetaObject
+	};
+
+	if (id >= 1 && id <= zombieClasses.length())
+		return zombieClasses.at(id - 1);
+	return 0;
 }

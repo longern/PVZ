@@ -12,14 +12,14 @@ GameLogic::GameLogic(QObject *parent) : QObject(parent)
 			int lastTrack = -1;
 			while (virus > 1)
 			{
-				int zombieType = qrand() % qMin((virus + 1) / 3, 3) + 1;
+				int zombieType = qrand() % qMin((virus + 1) / 3, 4) + 1;
 				virus -= zombieType * 3 - 1;
 				Zombie *newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(zombieType)->newInstance());
 				int track;
 				do
 				{
 					track = qrand() % 5;
-				} while (track != lastTrack);
+				} while (track == lastTrack);
 				newZombie->setPos(QPointF(11. + offset / 10., track));
 				lastTrack = track;
 				newZombie->onCreated(root);
