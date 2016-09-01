@@ -17,6 +17,7 @@ class PlayingInterface : public QWidget
 
 public:
 	explicit PlayingInterface(QWidget *parent = 0);
+	~PlayingInterface();
 
 	Q_INVOKABLE QLabel *createDynamicImage(const QString &imgSrc, QWidget *parent = 0);
 
@@ -32,7 +33,7 @@ protected:
 private slots:
 	void onAnimationFinished();
 	void onCreatureDestroyed(QObject *);
-	void on_buttonMenu_clicked();
+	void on_buttonBack_clicked();
 	void onGameFinished();
 
 private:

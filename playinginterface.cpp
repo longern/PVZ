@@ -40,6 +40,15 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 	timerId = startTimer(0);
 }
 
+PlayingInterface::~PlayingInterface()
+{
+	for (const QVariant &x : mGameStatus->property("plants").toList())
+		delete (Plant *)(x.value<QPointer<Plant>>());
+	for (const QVariant &x : mGameStatus->property("zombies").toList())
+		delete (Zombie *)(x.value<QPointer<Zombie>>());
+	delete ui;
+}
+
 QLabel *PlayingInterface::createDynamicImage(const QString &imgSrc, QWidget *parent)
 {
 	QLabel *movieLabel = new QLabel(parent);
@@ -363,11 +372,6 @@ void PlayingInterface::onCreatureDestroyed(QObject *creature)
 		qDebug() << "Null Pointer!";
 }
 
-void PlayingInterface::on_buttonMenu_clicked()
-{
-	qDebug() << "menu?" << endl;
-}
-
 void PlayingInterface::onGameFinished()
 {
 	killTimer(timerId);
@@ -390,4 +394,9 @@ QPointF PlayingInterface::screenToLawn(QPoint point)
 	QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());
 	QPointF relativePos = ui->widgetLawnArea->mapFrom(this, point);
 	return QPointF(0., 0.);
+}
+
+void PlayingInterface::on_buttonBack_clicked()
+{
+	emit stateSet(MainWindow::Welcome);
 }

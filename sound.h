@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 class Sound : public QObject
 {
@@ -23,6 +24,7 @@ private:
 	static Sound *sInstance;
 
 	QMediaPlayer *player;
+	QMediaPlaylist *playlist;
 };
 
 #endif // SOUND_H

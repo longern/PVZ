@@ -2,6 +2,7 @@
 #include "playinginterface.h"
 #include "gamelogic.h"
 #include "zombies/zombie.h"
+#include "sound.h"
 #include <QPropertyAnimation>
 
 QVariant boolInterpolator(const bool &start, const bool &end, qreal progress)
@@ -52,6 +53,7 @@ void PlayingInterface::onAnimationFinished()
 	case 1:
 	{
 		mGameLogic->onGameStart(mGameStatus);
+		Sound::ins()->play("qrc:/music/audio/Kitanai Sekai.mp3");
 		return;
 	}
 	}

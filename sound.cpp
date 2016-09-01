@@ -6,6 +6,7 @@ Sound::Sound()
 {
 	player = new QMediaPlayer(this);
 	player->setVolume(100);
+	playlist = nullptr;
 }
 
 Sound *Sound::ins()
@@ -17,7 +18,11 @@ Sound *Sound::ins()
 
 void Sound::play(const QString &source)
 {
+	delete playlist;
+	playlist = new QMediaPlaylist;
+	playlist->addMedia(QUrl(source));
+	playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
 	if (!source.isEmpty())
-		player->setMedia(QUrl(source));
+		player->setPlaylist(playlist);
 	player->play();
 }
