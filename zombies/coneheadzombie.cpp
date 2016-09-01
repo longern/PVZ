@@ -4,7 +4,7 @@ ConeheadZombie::ConeheadZombie(QObject *parent) :
 	Zombie(parent)
 {
 	mHealthPoint = 640;
-	mMoveSpeed = 1. / 4700.;
+	mMoveSpeed = 1. / 5000.;
 }
 
 QString ConeheadZombie::imgSrc() const

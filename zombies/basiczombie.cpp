@@ -3,7 +3,7 @@
 BasicZombie::BasicZombie(QObject *parent) :
 	Zombie(parent)
 {
-	mMoveSpeed = 1. / 4700.;
+	mMoveSpeed = 1. / 5000.;
 }
 
 QString BasicZombie::imgSrc() const

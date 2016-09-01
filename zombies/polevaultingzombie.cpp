@@ -5,7 +5,7 @@ PoleVaultingZombie::PoleVaultingZombie(QObject *parent) :
 	Zombie(parent)
 {
 	mHealthPoint = 500;
-	mMoveSpeed = 1. / 2350.;
+	mMoveSpeed = 1. / 2500.;
 	setProperty("state", "running");
 }
 

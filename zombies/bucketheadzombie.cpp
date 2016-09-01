@@ -4,7 +4,7 @@ BucketheadZombie::BucketheadZombie(QObject *parent) :
 	Zombie(parent)
 {
 	mHealthPoint = 1370;
-	mMoveSpeed = 1. / 4700.;
+	mMoveSpeed = 1. / 5000.;
 }
 
 QString BucketheadZombie::imgSrc() const
