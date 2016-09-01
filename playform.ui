@@ -33,7 +33,7 @@ font-family: &quot;Comic Sans MS&quot;;</string>
     <string notr="true">background-image: url(:/interface/images/interface/background1.jpg);</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="buttonMenu">
+  <widget class="QPushButton" name="buttonBack">
    <property name="geometry">
     <rect>
      <x>780</x>
@@ -90,7 +90,7 @@ font-family: &quot;Comic Sans MS&quot;;</string>
 :pressed { border: none; }</string>
    </property>
    <property name="text">
-    <string>Menu</string>
+    <string>Back</string>
    </property>
    <property name="flat">
     <bool>true</bool>
