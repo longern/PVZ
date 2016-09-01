@@ -20,6 +20,8 @@ QString PoleVaultingZombie::imgSrc() const
 		return QStringLiteral(":/zombies/images/Zombies/PoleVaultingZombie/PoleVaultingZombieJump2.gif");
 	else if(zombieState == "attacking")
 		return QStringLiteral(":/zombies/images/Zombies/PoleVaultingZombie/PoleVaultingZombieAttack.gif");
+	else if(zombieState == "bombed")
+		return QStringLiteral(":/zombies/images/Zombies/Zombie/BoomDie.gif");
 	else
 		return QStringLiteral(":/zombies/images/Zombies/PoleVaultingZombie/PoleVaultingZombieWalk.gif");
 }
@@ -28,10 +30,8 @@ void PoleVaultingZombie::onTimeout(QObject *root)
 {
 	if (mHealthPoint <= 0.)
 	{
-		deleteLater();
-		QList<QVariant> zombiesData(root->property("zombies").toList());
-		zombiesData.removeOne(QVariant::fromValue(QPointer<Zombie>(this)));
-		root->setProperty("zombies", zombiesData);
+		Zombie::onTimeout(root);
+		return;
 	}
 
 	qint64 newCurrentTime = root->property("currentTime").toLongLong();

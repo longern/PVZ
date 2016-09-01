@@ -5,6 +5,7 @@
 #include "mainwindow.h"
 
 class GameLogic;
+class Zombie;
 
 namespace Ui {
 class PlayForm;
@@ -42,6 +43,7 @@ private:
 	GameLogic *mGameLogic;
 
 	void registerInterpolator();
+	QPoint zombieAnimationOffset(Zombie *zombie);
 	QPointF screenToLawn(QPoint point);
 };
 

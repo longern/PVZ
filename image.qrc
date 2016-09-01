@@ -55,5 +55,6 @@
         <file>images/Zombies/JackinTheBoxZombie/Walk.gif</file>
         <file>images/Zombies/Zombie/ZombieDie.gif</file>
         <file>images/Zombies/Zombie/ZombieLostHead.gif</file>
+        <file>images/Zombies/Zombie/BoomDie.gif</file>
     </qresource>
 </RCC>

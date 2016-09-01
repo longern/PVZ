@@ -12,6 +12,8 @@ QString JackInTheBoxZombie::imgSrc() const
 {
 	if (property("state").toString() == "openBox")
 		return QStringLiteral(":/zombies/images/Zombies/JackinTheBoxZombie/OpenBox.gif");
+	else if(property("state").toString() == "bombed")
+		return QStringLiteral(":/zombies/images/Zombies/Zombie/BoomDie.gif");
 	else
 		return QStringLiteral(":/zombies/images/Zombies/JackinTheBoxZombie/Walk.gif");
 }

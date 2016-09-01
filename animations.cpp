@@ -1,6 +1,7 @@
 #include "ui_playform.h"
 #include "playinginterface.h"
 #include "gamelogic.h"
+#include "zombies/zombie.h"
 #include <QPropertyAnimation>
 
 QVariant boolInterpolator(const bool &start, const bool &end, qreal progress)
@@ -57,4 +58,21 @@ void PlayingInterface::onAnimationFinished()
 	ani->setProperty("animationID", animationID + 1);
 	connect(ani, SIGNAL(finished()), this, SLOT(onAnimationFinished()));
 	ani->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+QPoint PlayingInterface::zombieAnimationOffset(Zombie *zombie)
+{
+	static QMap<QString, QPoint> zombieAnimationOffset;
+	if (zombieAnimationOffset.isEmpty())
+	{
+		zombieAnimationOffset["BasicZombie"] = QPoint(-65, -110);
+		zombieAnimationOffset["ConeheadZombie"] = QPoint(-85, -110);
+		zombieAnimationOffset["PoleVaultingZombie"] = QPoint(-190, -130);
+		zombieAnimationOffset["BucketheadZombie"] = QPoint(-65, -110);
+		zombieAnimationOffset["JackInTheBoxZombie"] = QPoint(-105, -120);
+	}
+	if (zombie->property("state") == "bombed")
+		return zombieAnimationOffset["BasicZombie"];
+	else
+		return zombieAnimationOffset[zombie->metaObject()->className()];
 }

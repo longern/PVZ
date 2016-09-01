@@ -24,9 +24,12 @@ void CherryBomb::onTimeout(QObject *root)
 		for (const QVariant &y : root->property("zombies").toList())
 		{
 			Zombie *zombie = (Zombie *)(y.value<QPointer<Zombie>>());
-			if(sqrt(pow(zombie->pos().x() - pos().x(), 2) + pow(zombie->pos().y() - pos().y(), 2)) <= 1.5)
+			if(zombie->hp() > 0 &&
+			   sqrt(pow(zombie->pos().x() - pos().x(), 2) + pow(zombie->pos().y() - pos().y(), 2)) <= 1.5)
 			{
 				zombie->setHp(zombie->hp() - mAttackDamage);
+				zombie->setProperty("state", "bombed");
+				zombie->setProperty("bombedTime", currentTime);
 			}
 		}
 		deleteLater();

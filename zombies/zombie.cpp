@@ -18,16 +18,18 @@ void Zombie::onCreated(QObject *root)
 
 void Zombie::onTimeout(QObject *root)
 {
+	qint64 newCurrentTime = root->property("currentTime").toLongLong();
+	qint64 oldCurrentTime = root->property("lastFrameTime").toLongLong();
+
 	if (mHealthPoint <= 0.)
 	{
+		if (!property("bombedTime").isNull() && newCurrentTime - property("bombedTime").toLongLong() < 3000)
+			return;
 		deleteLater();
 		QList<QVariant> zombiesData(root->property("zombies").toList());
 		zombiesData.removeOne(QVariant::fromValue(QPointer<Zombie>(this)));
 		root->setProperty("zombies", zombiesData);
 	}
-
-	qint64 newCurrentTime = root->property("currentTime").toLongLong();
-	qint64 oldCurrentTime = root->property("lastFrameTime").toLongLong();
 
 	if (mHealthPoint > 70.)
 	{

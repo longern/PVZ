@@ -26,7 +26,8 @@ void Peashooter::onTimeout(QObject *root)
 		for (const QVariant &y : root->property("zombies").toList())
 		{
 			Zombie *zombie = (Zombie *)(y.value<QPointer<Zombie>>());
-			if (qAbs(zombie->pos().y() - mPlantPosition.y()) < 0.5 &&
+			if (zombie->hp() > 0 &&
+				qAbs(zombie->pos().y() - mPlantPosition.y()) < 0.5 &&
 				zombie->pos().x() - mPlantPosition.x() >= 0 &&
 				zombie->pos().x() <= mapSize.width() + 1.)
 				zombieExist = true;
