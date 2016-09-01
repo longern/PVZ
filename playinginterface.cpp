@@ -201,7 +201,10 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 		delete plant;
 	}
 
-	ui->labelDefenceTime->setText(tr("Defence Time: %1s / %2s").arg(newCurrentTime / 1000).arg(mGameStatus->property("defenceTime").toInt() / 1000));
+	if (newCurrentTime > mGameStatus->property("defenceTime").toInt())
+		ui->labelDefenceTime->setText(tr("Defence Time: Overtime"));
+	else
+		ui->labelDefenceTime->setText(tr("Defence Time: %1s / %2s").arg(newCurrentTime / 1000).arg(mGameStatus->property("defenceTime").toInt() / 1000));
 }
 
 void PlayingInterface::timerEvent(QTimerEvent *)
