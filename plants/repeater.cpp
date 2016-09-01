@@ -1,26 +1,27 @@
-#include "snowpea.h"
+#include "repeater.h"
 #include "zombies/zombie.h"
 
-SnowPea::SnowPea(QObject *parent) :
+Repeater::Repeater(QObject *parent) :
 	Plant(parent)
 {
 	mAttackDamage = 20;
-	mAttackSpeed = 1500;
-	mCost = 175;
+	mAttackSpeed = 1400;
+	mCost = 200;
 }
 
-QString SnowPea::imgSrc() const
+QString Repeater::imgSrc() const
 {
-	return QStringLiteral(":/plants/images/Plants/SnowPea/SnowPea.gif");
+	return QStringLiteral(":/plants/images/Plants/Repeater/Repeater.gif");
 }
 
-void SnowPea::onTimeout(QObject *root)
+void Repeater::onTimeout(QObject *root)
 {
 	qint64 newCurrentTime = root->property("currentTime").toLongLong();
 	qint64 oldCurrentTime = root->property("lastFrameTime").toLongLong();
 	QSize mapSize = root->property("mapSize").toSize();
 	qint64 plantTime = property("plantTime").toLongLong();
-	if ((newCurrentTime - plantTime) / mAttackSpeed > (oldCurrentTime - plantTime) / mAttackSpeed)
+	if ((newCurrentTime - plantTime) / mAttackSpeed > (oldCurrentTime - plantTime) / mAttackSpeed ||
+		(newCurrentTime - plantTime - mAttackSpeed / 5) / mAttackSpeed > (oldCurrentTime - plantTime - mAttackSpeed / 5) / mAttackSpeed)
 	{
 		bool zombieExist = false;
 		for (const QVariant &y : root->property("zombies").toList())
@@ -36,10 +37,10 @@ void SnowPea::onTimeout(QObject *root)
 		{
 			QList<QVariant> bullets = root->property("bullets").toList();
 			QMap<QString, QVariant> bullet;
-			bullet["type"] = QStringLiteral("ice");
+			bullet["type"] = QStringLiteral("normal");
 			bullet["pos"] = mPlantPosition + QPointF(0.3, 0);
 			bullet["damage"] = 20;
-			bullet["imgSrc"] = QStringLiteral(":/plants/images/Plants/BulletIce.gif");
+			bullet["imgSrc"] = QStringLiteral(":/plants/images/Plants/BulletNormal.gif");
 			bullets.append(bullet);
 			root->setProperty("bullets", bullets);
 		}

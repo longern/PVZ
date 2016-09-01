@@ -14,7 +14,7 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 	ui->labelZombieWin->hide();
 	ui->labelShovel->setAttribute(Qt::WA_TransparentForMouseEvents);
 
-	for (int i = 1; i <= 5; i++)
+	for (int i = 1; i <= 6; i++)
 	{
 		PlantCard *card = ui->widgetCardArea->findChild<PlantCard *>("widgetPlantCard" + QString::number(i));
 		const QMetaObject *plantClass = GetPlantClassByID(i);
@@ -187,7 +187,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 	mGameStatus->setProperty("sunshineList", sunshineList);
 
 	QMap<QString, QVariant> lastPlantTimeList = mGameStatus->property("lastPlantTime").toMap();
-	for (int i = 1; i <= 5; i++)
+	for (int i = 1; i <= 6; i++)
 	{
 		QVariant lastPlantTime = lastPlantTimeList[GetPlantClassByID(i)->className()];
 		Plant *plant = dynamic_cast<Plant *>(GetPlantClassByID(i)->newInstance());

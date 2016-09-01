@@ -189,6 +189,16 @@ font-family: &quot;Comic Sans MS&quot;;</string>
       </rect>
      </property>
     </widget>
+    <widget class="PlantCard" name="widgetPlantCard6" native="true">
+     <property name="geometry">
+      <rect>
+       <x>287</x>
+       <y>0</y>
+       <width>47</width>
+       <height>63</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="labelShovelBack">
     <property name="geometry">

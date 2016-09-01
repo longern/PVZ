@@ -35,6 +35,8 @@
         <file>images/Plants/BulletNormal.gif</file>
         <file>images/Plants/CherryBomb/CherryBomb.gif</file>
         <file>images/Plants/CherryBomb/0.png</file>
+        <file>images/Plants/Repeater/0.gif</file>
+        <file>images/Plants/Repeater/Repeater.gif</file>
     </qresource>
     <qresource prefix="/zombies">
         <file>images/Zombies/Zombie/Zombie.gif</file>
