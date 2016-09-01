@@ -30,7 +30,7 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 
 	mGameStatus = new QObject(this);
 	mGameStatus->setProperty("mapSize", QSize(9, 5));
-	mGameStatus->setProperty("sunvalue", 200);
+	mGameStatus->setProperty("sunvalue", 150);
 	mGameLogic = new GameLogic(this);
 	connect(mGameLogic, SIGNAL(gameFinished()), this, SLOT(onGameFinished()));
 

@@ -7,7 +7,7 @@ GameLogic::GameLogic(QObject *parent) : QObject(parent)
 	for (int i = 0; i < 40; i++)
 	{
 		addTimeFlag(i * 20000 + 10000, [i](QObject *root) {
-			int virus = int(std::pow(i, 1.5) / 2) + 2;
+			int virus = int(std::pow(i, 1.55) / 2) + 2;
 			int offset = 0;
 			int lastTrack = -1;
 			while (virus > 1)

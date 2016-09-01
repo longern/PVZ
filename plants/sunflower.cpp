@@ -17,7 +17,8 @@ void SunFlower::onTimeout(QObject *root)
 	qint64 oldCurrentTime = root->property("lastFrameTime").toLongLong();
 	qint64 plantTime = property("plantTime").toLongLong();
 	const int mProduceSpeed = 24000;
-	if ((newCurrentTime - plantTime) / mProduceSpeed > (oldCurrentTime - plantTime) / mProduceSpeed)
+	if ((newCurrentTime - plantTime + mProduceSpeed / 2) / mProduceSpeed >
+		(oldCurrentTime - plantTime + mProduceSpeed / 2) / mProduceSpeed)
 	{
 		QList<QVariant> sunshineList = root->property("sunshineList").toList();
 		QMap<QString, QVariant> sunshine;
