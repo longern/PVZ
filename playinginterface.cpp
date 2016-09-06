@@ -391,14 +391,6 @@ void PlayingInterface::onGameFinished()
 	}
 }
 
-QPointF PlayingInterface::screenToLawn(QPoint point)
-{
-	QSize mapSize = mGameStatus->property("mapSize").toSize();
-	QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());
-	QPointF relativePos = ui->widgetLawnArea->mapFrom(this, point);
-	return QPointF(0., 0.);
-}
-
 void PlayingInterface::on_buttonBack_clicked()
 {
 	emit stateSet(MainWindow::Welcome);

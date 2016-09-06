@@ -45,7 +45,6 @@ private:
 
 	void registerInterpolator();
 	QPoint zombieAnimationOffset(Zombie *zombie);
-	QPointF screenToLawn(QPoint point);
 };
 
 #endif // PLAYINGINTERFACE_H
