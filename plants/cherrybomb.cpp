@@ -25,7 +25,7 @@ void CherryBomb::onTimeout(QObject *root)
 		{
 			Zombie *zombie = (Zombie *)(y.value<QPointer<Zombie>>());
 			if(zombie->hp() > 0 &&
-			   sqrt(pow(zombie->pos().x() - pos().x(), 2) + pow(zombie->pos().y() - pos().y(), 2)) <= 1.5)
+			   sqrt(pow(zombie->pos().x() - pos().x(), 2) + pow(zombie->pos().y() - pos().y(), 2)) <= 1.81)
 			{
 				zombie->setHp(zombie->hp() - mAttackDamage);
 				zombie->setProperty("state", "bombed");
