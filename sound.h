@@ -19,6 +19,7 @@ public:
 signals:
 
 public slots:
+	void stop();
 
 private:
 	static Sound *sInstance;

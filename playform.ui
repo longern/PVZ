@@ -288,6 +288,45 @@ font-family: &quot;Comic Sans MS&quot;;</string>
     <string>Defence Time:</string>
    </property>
   </widget>
+  <widget class="QLabel" name="labelReady">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>160</y>
+     <width>254</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="image.qrc">:/interface/images/interface/StartReady.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelSet">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>210</y>
+     <width>254</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="image.qrc">:/interface/images/interface/StartSet.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelPlant">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>320</y>
+     <width>281</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="image.qrc">:/interface/images/interface/StartPlant.png</pixmap>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>

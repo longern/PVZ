@@ -26,3 +26,8 @@ void Sound::play(const QString &source)
 		player->setPlaylist(playlist);
 	player->play();
 }
+
+void Sound::stop()
+{
+	player->stop();
+}

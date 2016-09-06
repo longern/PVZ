@@ -12,6 +12,9 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 	ui->setupUi(this);
 	ui->labelPlantWin->hide();
 	ui->labelZombieWin->hide();
+	ui->labelReady->hide();
+	ui->labelSet->hide();
+	ui->labelPlant->hide();
 	ui->labelShovel->setAttribute(Qt::WA_TransparentForMouseEvents);
 
 	for (int i = 1; i <= 6; i++)
