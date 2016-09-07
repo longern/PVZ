@@ -4,52 +4,48 @@
 
 GameLogic::GameLogic(QObject *parent) : QObject(parent)
 {
-	for (int i = 0; i < 40; i++)
-	{
-		addTimeFlag(i * 20000 + 10000, [i](QObject *root) {
-			int virus = int(std::pow(i, 1.55) / 2) + 2;
-			int offset = 0;
-			int lastTrack = -1;
-			while (virus > 1)
-			{
-				int zombieType = qrand() % qMin((virus + 1) / 3, 5) + 1;
-				virus -= zombieType * 3 - 1;
-				Zombie *newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(zombieType)->newInstance());
-				int track;
-				do
-				{
-					track = qrand() % 5;
-				} while (track == lastTrack);
-				newZombie->setPos(QPointF(11. + offset / 10., track));
-				lastTrack = track;
-				newZombie->onCreated(root);
-				offset++;
-			}
-		});
-	}
 
-	for (int i = 0; i < 80; i++)
-	{
-		addTimeFlag(10000 * i, [](QObject *root) {
-			QSize mapSize = root->property("mapSize").toSize();
-			QList<QVariant> sunshineList = root->property("sunshineList").toList();
-			QMap<QString, QVariant> sunshine;
-			sunshine["type"] = QStringLiteral("auto");
-			sunshine["value"] = 25;
-			sunshine["pos"] = QPointF(qrand() / (RAND_MAX - 1.) * mapSize.width() - 0.5 , 0);
-			sunshineList.append(sunshine);
-			root->setProperty("sunshineList", sunshineList);
-		});
-	}
 }
 
-void GameLogic::onGameStart(QObject *root)
+void GameLogic::startGame(QObject *root)
 {
 	QElapsedTimer elapsedTimer;
 	elapsedTimer.start();
 	root->setProperty("gameStartTime", QVariant(elapsedTimer.msecsSinceReference()));
 	root->setProperty("currentTime", QVariant(qint64(0)));
 	root->setProperty("defenceTime", 800000);
+	if (root->property("mode").toString() != "replay")
+	{
+		for (int i = 0; i < 40; i++)
+		{
+			addTimeFlag(i * 20000 + 10000, [i, this](QObject *root) {
+				int virus = int(std::pow(i, 1.53) / 2) + 2;
+				int offset = 0;
+				int lastTrack = -1;
+				while (virus > 1)
+				{
+					int zombieType = qrand() % qMin((virus + 1) / 3, 5) + 1;
+					virus -= zombieType * 3 - 1;
+					int track;
+					do
+					{
+						track = qrand() % 5;
+					} while (track == lastTrack);
+					createZombie(root, zombieType, 11. + offset / 10., track);
+					lastTrack = track;
+					offset++;
+				}
+			});
+		}
+
+		for (int i = 0; i < 80; i++)
+		{
+			addTimeFlag(10000 * i, [this](QObject *root) {
+				QSize mapSize = root->property("mapSize").toSize();
+				createSunshine(root, qrand() / (RAND_MAX - 1.) * mapSize.width() - 0.5);
+			});
+		}
+	}
 }
 
 void GameLogic::onTimeout(QObject *root)
@@ -140,6 +136,53 @@ void GameLogic::onTimeout(QObject *root)
 		else
 			i++;
 	}
+}
+
+void GameLogic::createPlant(QObject *root, int plantType, double x, double y)
+{
+	QPointer<Plant> newPlant = dynamic_cast<Plant *>(GetPlantClassByID(plantType)->newInstance());
+	newPlant->setPos(QPointF(x, y));
+	if (!newPlant->canPlant(root))
+	{
+		newPlant->deleteLater();
+		return;
+	}
+	newPlant->onPlanted(root);
+
+	QList<QVariant> plantsData(root->property("plants").toList());
+	plantsData.append(QVariant::fromValue(newPlant));
+	root->setProperty("plants", plantsData);
+}
+
+void GameLogic::createZombie(QObject *root, int zombieType, double x, double y)
+{
+	Zombie *newZombie = dynamic_cast<Zombie *>(GetZombieClassByID(zombieType)->newInstance());
+	newZombie->setProperty("type", zombieType);
+	newZombie->setPos(QPointF(x, y));
+	newZombie->onCreated(root);
+	emit zombieCreated(newZombie);
+}
+
+void GameLogic::createSunshine(QObject *root, double x)
+{
+	QList<QVariant> sunshineList = root->property("sunshineList").toList();
+	QMap<QString, QVariant> sunshine;
+	sunshine["type"] = QStringLiteral("auto");
+	sunshine["value"] = 25;
+	sunshine["pos"] = QPointF(x, 0);
+	sunshineList.append(sunshine);
+	root->setProperty("sunshineList", sunshineList);
+	emit sunshineCreated();
+}
+
+void GameLogic::collectSunshine(QObject *root, int index)
+{
+	emit sunshineCollected(index);
+	QList<QVariant> sunshineList = root->property("sunshineList").toList();
+	QMap<QString, QVariant> sunshine = sunshineList[index].toMap();
+	root->setProperty("sunvalue", root->property("sunvalue").toInt() + sunshine["value"].toInt());
+	sunshineList.removeAt(index);
+	root->setProperty("sunshineList", sunshineList);
 }
 
 void GameLogic::addTimeFlag(qint64 timePoint, std::function<void (QObject *)> func)

@@ -57,7 +57,7 @@ void PlayingInterface::onAnimationFinished()
 	}
 	case 1:
 	{
-		mGameLogic->onGameStart(mGameStatus);
+		mGameLogic->startGame(mGameStatus);
 		Sound::ins()->play("qrc:/music/audio/Kitanai Sekai.mp3");
 		return;
 	}

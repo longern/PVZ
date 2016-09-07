@@ -17,7 +17,6 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     welcomeinterface.cpp \
     playinginterface.cpp \
-    gameoverinterface.cpp \
 	plants/plant.cpp \
 	zombies/zombie.cpp \
     plants/peashooter.cpp \
@@ -37,12 +36,12 @@ SOURCES += main.cpp\
     plantcard.cpp \
     zombies/coneheadzombie.cpp \
     zombies/jackintheboxzombie.cpp \
-    plants/repeater.cpp
+    plants/repeater.cpp \
+    replayinterface.cpp
 
 HEADERS  += mainwindow.h \
     welcomeinterface.h \
     playinginterface.h \
-    gameoverinterface.h \
 	plants/plant.h \
 	zombies/zombie.h \
     plants/peashooter.h \
@@ -61,7 +60,8 @@ HEADERS  += mainwindow.h \
     plantcard.h \
     zombies/coneheadzombie.h \
     zombies/jackintheboxzombie.h \
-    plants/repeater.h
+    plants/repeater.h \
+    replayinterface.h
 
 FORMS    += \
     welcomeform.ui \

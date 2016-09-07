@@ -35,12 +35,22 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 	mGameStatus->setProperty("mapSize", QSize(9, 5));
 	mGameStatus->setProperty("sunvalue", 150);
 	mGameLogic = new GameLogic(this);
+	connect(mGameLogic, SIGNAL(zombieCreated(Zombie*)), this, SLOT(onZombieCreated(Zombie*)));
+	connect(mGameLogic, SIGNAL(sunshineCreated()), this, SLOT(onSunshineCreated()));
+	connect(mGameLogic, SIGNAL(sunshineCollected(int)), this, SLOT(onSunshineCollected(int)));
 	connect(mGameLogic, SIGNAL(gameFinished()), this, SLOT(onGameFinished()));
 
 	registerInterpolator();
 	onAnimationFinished();  // Activate first animation
 
-	timerId = startTimer(0);
+	mGameRecord.open(QIODevice::ReadWrite);
+	mGameRecordStream.setDevice(&mGameRecord);
+
+	timerId = 0;
+	QTimer::singleShot(1, [this]() {
+		if (mGameStatus->property("mode").toString() != "replay")
+			timerId = startTimer(0);
+	});
 }
 
 PlayingInterface::~PlayingInterface()
@@ -50,6 +60,15 @@ PlayingInterface::~PlayingInterface()
 	for (const QVariant &x : mGameStatus->property("zombies").toList())
 		delete (Zombie *)(x.value<QPointer<Zombie>>());
 	delete ui;
+}
+
+void PlayingInterface::runGameLogic()
+{
+	mGameLogic->onTimeout(mGameStatus);
+	for (const QVariant &x : mGameStatus->property("plants").toList())
+		(x.value<QPointer<Plant>>())->onTimeout(mGameStatus);
+	for (const QVariant &x : mGameStatus->property("zombies").toList())
+		(x.value<QPointer<Zombie>>())->onTimeout(mGameStatus);
 }
 
 QLabel *PlayingInterface::createDynamicImage(const QString &imgSrc, QWidget *parent)
@@ -64,7 +83,7 @@ QLabel *PlayingInterface::createDynamicImage(const QString &imgSrc, QWidget *par
 
 void PlayingInterface::paintEvent(QPaintEvent *)
 {
-	if (timerId == 0)
+	if (!mGameStatus->property("winner").isNull())
 		return;
 
 	QSize mapSize = mGameStatus->property("mapSize").toSize();
@@ -221,11 +240,8 @@ void PlayingInterface::timerEvent(QTimerEvent *)
 		elapsedTimer.start();
 		qint64 newCurrentTime = elapsedTimer.msecsSinceReference() - mGameStatus->property("gameStartTime").toLongLong();
 		mGameStatus->setProperty("currentTime", newCurrentTime);
-		mGameLogic->onTimeout(mGameStatus);
-		for (const QVariant &x : mGameStatus->property("plants").toList())
-			(x.value<QPointer<Plant>>())->onTimeout(mGameStatus);
-		for (const QVariant &x : mGameStatus->property("zombies").toList())
-			(x.value<QPointer<Zombie>>())->onTimeout(mGameStatus);
+		runGameLogic();
+		mGameRecordStream << newCurrentTime << quint8('U');
 	}
 	update();
 }
@@ -233,9 +249,9 @@ void PlayingInterface::timerEvent(QTimerEvent *)
 void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 {
 	QObject *clickedObject = childAt(ev->pos());
-	if (clickedObject == nullptr)
+	if (clickedObject == nullptr || mGameStatus->property("mode").toString() == "replay")
 	{
-		QWidget::mouseMoveEvent(ev);
+		QWidget::mousePressEvent(ev);
 		return;
 	}
 
@@ -269,17 +285,7 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 			sunshineLabel = (QLabel *)(sunshine["img"].value<QPointer<QLabel>>());
 			if (sunshineLabel == clickedObject)
 			{
-				mGameStatus->setProperty("sunvalue", mGameStatus->property("sunvalue").toInt() + sunshine["value"].toInt());
-				sunshineList.removeAt(i);
-				QPropertyAnimation *ani = new QPropertyAnimation(sunshineLabel, "pos");
-				ani->setDuration(500);
-				ani->setEasingCurve(QEasingCurve::OutCubic);
-				ani->setStartValue(sunshineLabel->pos());
-				ani->setEndValue(QPoint(0, 0));
-				sunshineLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
-				connect(ani, SIGNAL(finished()), sunshineLabel, SLOT(deleteLater()));
-				ani->start();
-				mGameStatus->setProperty("sunshineList", sunshineList);
+				mGameLogic->collectSunshine(mGameStatus, i);
 				return;
 			}
 		}
@@ -331,7 +337,11 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 				{
 					Plant *plant = (Plant *)(x.value<QPointer<Plant>>());
 					if (plant->pos() == plantPos)
+					{
 						plant->onRemoved(mGameStatus);
+						mGameRecordStream << (qint64)mGameStatus->property("currentTime").toLongLong()
+										  << quint8('D') << plantPos;
+					}
 				}
 				return;
 			}
@@ -341,18 +351,9 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 				QPoint plantPos = QPoint(qMin(relativePos.x() / cellSize.width(), mapSize.width() - 1),
 										 qMin(relativePos.y() / cellSize.height(), mapSize.height() - 1));
 
-				QPointer<Plant> newPlant = dynamic_cast<Plant *>(GetPlantClassByID(property("selectedPlant").toInt())->newInstance());
-				newPlant->setPos(QPointF(plantPos));
-				if (!newPlant->canPlant(mGameStatus))
-				{
-					newPlant->deleteLater();
-					return;
-				}
-				newPlant->onPlanted(mGameStatus);
-
-				QList<QVariant> plantsData(mGameStatus->property("plants").toList());
-				plantsData.append(QVariant::fromValue(newPlant));
-				mGameStatus->setProperty("plants", plantsData);
+				mGameLogic->createPlant(mGameStatus, property("selectedPlant").toInt(), plantPos.x(), plantPos.y());
+				mGameRecordStream << (qint64)mGameStatus->property("currentTime").toLongLong() << quint8('P')
+								  << (qint32)property("selectedPlant").toInt() << QPointF(plantPos);
 
 				setProperty("selectedPlant", QVariant());
 				return;
@@ -365,6 +366,44 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 void PlayingInterface::mouseMoveEvent(QMouseEvent *ev)
 {
 	Q_UNUSED(ev)
+}
+
+void PlayingInterface::keyPressEvent(QKeyEvent *ev)
+{
+	if (ev->key() == Qt::Key_S && ev->modifiers() == Qt::ControlModifier && !mGameStatus->property("winner").isNull())
+	{
+		QString replayFileName = QFileDialog::getSaveFileName(0, tr("Save Replay File"), QString(), tr("PVZ Replay File (*.pzr)"));
+		QFile replayFile(replayFileName);
+		if (replayFile.open(QIODevice::WriteOnly))
+			replayFile.write(mGameRecord.data());
+	}
+}
+
+void PlayingInterface::onZombieCreated(Zombie *zombie)
+{
+	mGameRecordStream << (qint64)mGameStatus->property("currentTime").toLongLong() << quint8('Z')
+					  << (qint32)zombie->property("type").toInt() << zombie->pos();
+}
+
+void PlayingInterface::onSunshineCreated()
+{
+	mGameRecordStream << (qint64)mGameStatus->property("currentTime").toLongLong() << quint8('S')
+					  << mGameStatus->property("sunshineList").toList().back().toMap()["pos"].toPointF().x();
+}
+
+void PlayingInterface::onSunshineCollected(int index)
+{
+	QList<QVariant> sunshineList = mGameStatus->property("sunshineList").toList();
+	QLabel *sunshineLabel = sunshineList[index].toMap()["img"].value<QPointer<QLabel>>();
+	QPropertyAnimation *ani = new QPropertyAnimation(sunshineLabel, "pos");
+	ani->setDuration(500);
+	ani->setEasingCurve(QEasingCurve::OutCubic);
+	ani->setStartValue(sunshineLabel->pos());
+	ani->setEndValue(QPoint(0, 0));
+	sunshineLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+	connect(ani, SIGNAL(finished()), sunshineLabel, SLOT(deleteLater()));
+	ani->start();
+	mGameRecordStream << (qint64)mGameStatus->property("currentTime").toLongLong() << quint8('C') << (qint32)index;
 }
 
 void PlayingInterface::onCreatureDestroyed(QObject *creature)

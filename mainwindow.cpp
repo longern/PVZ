@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "welcomeinterface.h"
 #include "playinginterface.h"
-#include "gameoverinterface.h"
+#include "replayinterface.h"
 
 MainWindow::MainWindow(QWidget *parent) :
 	QWidget(parent)
@@ -31,8 +31,8 @@ void MainWindow::switchState(MainWindow::GameState state)
 		case Playing:
 			mCurrentStateWidget = new PlayingInterface(this);
 			break;
-		case GameOver:
-			mCurrentStateWidget = new GameOverInterface(this);
+		case Replay:
+			mCurrentStateWidget = new ReplayInterface(this);
 			break;
 		default:
 			break;
@@ -40,5 +40,18 @@ void MainWindow::switchState(MainWindow::GameState state)
 		mCurrentStateWidget->resize(900, 600);
 		connect(mCurrentStateWidget, SIGNAL(stateSet(MainWindow::GameState)), this, SLOT(switchState(MainWindow::GameState)));
 		mCurrentStateWidget->show();
+	}
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *ev)
+{
+	if (ev->key() == Qt::Key_O && ev->modifiers() == Qt::ControlModifier)
+	{
+		QString replayFileName = QFileDialog::getOpenFileName(0, tr("Open Replay File"), QString(), tr("PVZ Replay File (*.pzr)"), 0, QFileDialog::DontUseNativeDialog);
+		if (QFile::exists(replayFileName))
+		{
+			switchState(Replay);
+			qobject_cast<ReplayInterface *>(mCurrentStateWidget)->setReplayFile(replayFileName);
+		}
 	}
 }

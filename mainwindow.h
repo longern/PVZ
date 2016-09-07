@@ -12,10 +12,13 @@ public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
 
-	enum GameState { Welcome, Playing, GameOver };
+	enum GameState { Welcome, Playing, Replay };
 
 public slots:
 	void switchState(MainWindow::GameState state);
+
+protected:
+	void keyPressEvent(QKeyEvent *);
 
 private:
 	GameState mGameState;

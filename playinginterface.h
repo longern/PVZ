@@ -19,6 +19,9 @@ public:
 	explicit PlayingInterface(QWidget *parent = 0);
 	~PlayingInterface();
 
+	QObject *gameStatus() { return mGameStatus; }
+	GameLogic *gameLogic() { return mGameLogic; }
+	void runGameLogic();
 	Q_INVOKABLE QLabel *createDynamicImage(const QString &imgSrc, QWidget *parent = 0);
 
 signals:
@@ -29,9 +32,13 @@ protected:
 	void timerEvent(QTimerEvent *);
 	void mousePressEvent(QMouseEvent *);
 	void mouseMoveEvent(QMouseEvent *);
+	void keyPressEvent(QKeyEvent *);
 
 private slots:
 	void onAnimationFinished();
+	void onZombieCreated(Zombie *);
+	void onSunshineCreated();
+	void onSunshineCollected(int index);
 	void onCreatureDestroyed(QObject *);
 	void on_buttonBack_clicked();
 	void onGameFinished();
@@ -42,6 +49,8 @@ private:
 	int timerId;
 	QObject *mGameStatus;
 	GameLogic *mGameLogic;
+	QBuffer mGameRecord;
+	QDataStream mGameRecordStream;
 
 	void registerInterpolator();
 	QPoint zombieAnimationOffset(Zombie *zombie);
