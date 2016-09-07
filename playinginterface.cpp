@@ -16,6 +16,11 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 	ui->labelSet->hide();
 	ui->labelPlant->hide();
 	ui->labelShovel->setAttribute(Qt::WA_TransparentForMouseEvents);
+	ui->labelPlantPreview->hide();
+	ui->labelPlantPreview->setAttribute(Qt::WA_TransparentForMouseEvents);
+	QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect();
+	opacityEffect->setOpacity(0.5);
+	ui->labelPlantPreview->setGraphicsEffect(opacityEffect);
 
 	for (int i = 1; i <= 6; i++)
 	{
@@ -116,7 +121,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 	}
 
 	QList<QVariant> zombies = mGameStatus->property("zombies").toList();
-	qSort(zombies.begin(), zombies.end(), [](const QVariant &a, const QVariant &b) {
+	qStableSort(zombies.begin(), zombies.end(), [](const QVariant &a, const QVariant &b) {
 		Zombie *zombieA = (Zombie *)(a.value<QPointer<Zombie>>());
 		Zombie *zombieB = (Zombie *)(b.value<QPointer<Zombie>>());
 		return zombieA->pos().y() < zombieB->pos().y();
@@ -356,6 +361,7 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 								  << (qint32)property("selectedPlant").toInt() << QPointF(plantPos);
 
 				setProperty("selectedPlant", QVariant());
+				ui->labelPlantPreview->hide();
 				return;
 			}
 		}
@@ -365,7 +371,42 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 
 void PlayingInterface::mouseMoveEvent(QMouseEvent *ev)
 {
-	Q_UNUSED(ev)
+	QObject *clickedObject = childAt(ev->pos());
+	if (clickedObject == nullptr || mGameStatus->property("mode").toString() == "replay")
+	{
+		QWidget::mousePressEvent(ev);
+		return;
+	}
+
+	QObject *p = clickedObject;
+	do {
+		if (p->objectName() == "widgetLawnArea")
+		{
+			QSize mapSize = mGameStatus->property("mapSize").toSize();
+			QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());
+			QPoint relativePos = ui->widgetLawnArea->mapFrom(this, ev->pos());
+
+			if (!mGameStatus->property("gameStartTime").isNull() && !property("selectedPlant").isNull())
+			{
+				QPoint plantPos = QPoint(qMin(relativePos.x() / cellSize.width(), mapSize.width() - 1),
+										 qMin(relativePos.y() / cellSize.height(), mapSize.height() - 1));
+
+				Plant *newPlant = qobject_cast<Plant *>(GetPlantClassByID(property("selectedPlant").toInt())->newInstance());
+				newPlant->deleteLater();
+				newPlant->setPos(plantPos);
+				if (!newPlant->canPlant(mGameStatus))
+					return;
+				ui->labelPlantPreview->move(plantPos.x() * cellSize.width(), plantPos.y() * cellSize.height() - 10);
+				ui->labelPlantPreview->setPixmap(QString(newPlant->metaObject()->classInfo(newPlant->metaObject()->indexOfClassInfo("staticImageSource")).value()));
+				ui->labelPlantPreview->show();
+				return;
+			}
+			else
+				ui->labelPlantPreview->hide();
+		}
+		p = p->parent();
+	} while (p != this);
+	ui->labelPlantPreview->hide();
 }
 
 void PlayingInterface::keyPressEvent(QKeyEvent *ev)

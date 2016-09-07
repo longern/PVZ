@@ -29,6 +29,9 @@ font-family: &quot;Comic Sans MS&quot;;</string>
      <height>600</height>
     </rect>
    </property>
+   <property name="mouseTracking">
+    <bool>true</bool>
+   </property>
    <property name="styleSheet">
     <string notr="true">background-image: url(:/interface/images/interface/background1.jpg);</string>
    </property>
@@ -242,6 +245,16 @@ font-family: &quot;Comic Sans MS&quot;;</string>
    <property name="mouseTracking">
     <bool>true</bool>
    </property>
+   <widget class="QLabel" name="labelPlantPreview">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>120</y>
+      <width>112</width>
+      <height>81</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QLabel" name="labelZombieWin">
    <property name="geometry">
@@ -291,8 +304,8 @@ font-family: &quot;Comic Sans MS&quot;;</string>
   <widget class="QLabel" name="labelReady">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>160</y>
+     <x>270</x>
+     <y>200</y>
      <width>254</width>
      <height>81</height>
     </rect>
@@ -304,8 +317,8 @@ font-family: &quot;Comic Sans MS&quot;;</string>
   <widget class="QLabel" name="labelSet">
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>210</y>
+     <x>380</x>
+     <y>250</y>
      <width>254</width>
      <height>81</height>
     </rect>
