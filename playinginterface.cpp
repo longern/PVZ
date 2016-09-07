@@ -395,7 +395,10 @@ void PlayingInterface::mouseMoveEvent(QMouseEvent *ev)
 				newPlant->deleteLater();
 				newPlant->setPos(plantPos);
 				if (!newPlant->canPlant(mGameStatus))
+				{
+					ui->labelPlantPreview->hide();
 					return;
+				}
 				ui->labelPlantPreview->move(plantPos.x() * cellSize.width(), plantPos.y() * cellSize.height() - 10);
 				ui->labelPlantPreview->setPixmap(QString(newPlant->metaObject()->classInfo(newPlant->metaObject()->indexOfClassInfo("staticImageSource")).value()));
 				ui->labelPlantPreview->show();
