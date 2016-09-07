@@ -241,7 +241,7 @@ void PlayingInterface::timerEvent(QTimerEvent *)
 		qint64 newCurrentTime = elapsedTimer.msecsSinceReference() - mGameStatus->property("gameStartTime").toLongLong();
 		mGameStatus->setProperty("currentTime", newCurrentTime);
 		runGameLogic();
-		mGameRecordStream << newCurrentTime << quint8('U');
+		mGameRecordStream << (qint32)newCurrentTime << quint8('U');
 	}
 	update();
 }
@@ -339,7 +339,7 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 					if (plant->pos() == plantPos)
 					{
 						plant->onRemoved(mGameStatus);
-						mGameRecordStream << (qint64)mGameStatus->property("currentTime").toLongLong()
+						mGameRecordStream << (qint32)mGameStatus->property("currentTime").toLongLong()
 										  << quint8('D') << plantPos;
 					}
 				}
@@ -352,7 +352,7 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 										 qMin(relativePos.y() / cellSize.height(), mapSize.height() - 1));
 
 				mGameLogic->createPlant(mGameStatus, property("selectedPlant").toInt(), plantPos.x(), plantPos.y());
-				mGameRecordStream << (qint64)mGameStatus->property("currentTime").toLongLong() << quint8('P')
+				mGameRecordStream << (qint32)mGameStatus->property("currentTime").toLongLong() << quint8('P')
 								  << (qint32)property("selectedPlant").toInt() << QPointF(plantPos);
 
 				setProperty("selectedPlant", QVariant());
@@ -381,13 +381,13 @@ void PlayingInterface::keyPressEvent(QKeyEvent *ev)
 
 void PlayingInterface::onZombieCreated(Zombie *zombie)
 {
-	mGameRecordStream << (qint64)mGameStatus->property("currentTime").toLongLong() << quint8('Z')
+	mGameRecordStream << (qint32)mGameStatus->property("currentTime").toLongLong() << quint8('Z')
 					  << (qint32)zombie->property("type").toInt() << zombie->pos();
 }
 
 void PlayingInterface::onSunshineCreated()
 {
-	mGameRecordStream << (qint64)mGameStatus->property("currentTime").toLongLong() << quint8('S')
+	mGameRecordStream << (qint32)mGameStatus->property("currentTime").toLongLong() << quint8('S')
 					  << mGameStatus->property("sunshineList").toList().back().toMap()["pos"].toPointF().x();
 }
 
@@ -403,7 +403,7 @@ void PlayingInterface::onSunshineCollected(int index)
 	sunshineLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
 	connect(ani, SIGNAL(finished()), sunshineLabel, SLOT(deleteLater()));
 	ani->start();
-	mGameRecordStream << (qint64)mGameStatus->property("currentTime").toLongLong() << quint8('C') << (qint32)index;
+	mGameRecordStream << (qint32)mGameStatus->property("currentTime").toLongLong() << quint8('C') << (qint32)index;
 }
 
 void PlayingInterface::onCreatureDestroyed(QObject *creature)

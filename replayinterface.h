@@ -26,7 +26,7 @@ private:
 	PlayingInterface *playInterface;
 
 	int timerId;
-	qint64 lastFrameTime;
+	qint32 lastFrameTime;
 	QFile *mGameRecordFile;
 	QDataStream mGameRecordStream;
 };

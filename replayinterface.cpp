@@ -39,11 +39,11 @@ void ReplayInterface::timerEvent(QTimerEvent *)
 	{
 		qint8 operationType;
 		qint32 type, index;
-		qint64 newCurrentTime;
+		qint32 newCurrentTime;
 		double x;
 		QPointF pos;
 		mGameRecordStream >> newCurrentTime >> operationType;
-		playInterface->gameStatus()->setProperty("currentTime", newCurrentTime);
+		playInterface->gameStatus()->setProperty("currentTime", (qint64)newCurrentTime);
 		switch (operationType)
 		{
 		case 'C':
@@ -68,7 +68,7 @@ void ReplayInterface::timerEvent(QTimerEvent *)
 			playInterface->gameLogic()->createSunshine(playInterface->gameStatus(), x);
 			break;
 		case 'U':
-			playInterface->gameStatus()->setProperty("lastFrameTime", lastFrameTime);
+			playInterface->gameStatus()->setProperty("lastFrameTime", (qint64)lastFrameTime);
 			playInterface->runGameLogic();
 			lastFrameTime = newCurrentTime;
 			update();
