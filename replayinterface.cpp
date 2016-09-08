@@ -6,6 +6,7 @@
 ReplayInterface::ReplayInterface(QWidget *parent) : QWidget(parent)
 {
 	mGameRecordFile = nullptr;
+	replaySpeed = 1.;
 }
 
 ReplayInterface::~ReplayInterface()
@@ -33,6 +34,8 @@ void ReplayInterface::setReplayFile(const QString &fileName)
 
 void ReplayInterface::timerEvent(QTimerEvent *)
 {
+	static double replayFrameCount = 0.;
+
 	if (playInterface->gameStatus()->property("gameStartTime").isNull())
 		return;
 	while (!mGameRecordStream.atEnd())
@@ -72,6 +75,10 @@ void ReplayInterface::timerEvent(QTimerEvent *)
 			playInterface->runGameLogic();
 			lastFrameTime = newCurrentTime;
 			update();
+			replayFrameCount += 1. / replaySpeed;
+			if (replayFrameCount < 1.)
+				continue;
+			replayFrameCount -= 1;
 			return;
 		case 'Z':
 			mGameRecordStream >> type >> pos;
@@ -81,4 +88,23 @@ void ReplayInterface::timerEvent(QTimerEvent *)
 			break;
 		}
 	}
+}
+
+void ReplayInterface::keyPressEvent(QKeyEvent *ev)
+{
+	switch (ev->key())
+	{
+	case Qt::Key_W:
+		if (replaySpeed <= 7.)
+			replaySpeed += 1.;
+		break;
+	case Qt::Key_S:
+		if (replaySpeed >= 2.)
+			replaySpeed -= 1.;
+		break;
+	default:
+		QWidget::keyPressEvent(ev);
+		break;
+	}
+	qDebug() << replaySpeed;
 }

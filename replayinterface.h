@@ -19,6 +19,7 @@ signals:
 
 protected:
 	void timerEvent(QTimerEvent *);
+	void keyPressEvent(QKeyEvent *);
 
 public slots:
 
@@ -26,6 +27,7 @@ private:
 	PlayingInterface *playInterface;
 
 	int timerId;
+	double replaySpeed;
 	qint32 lastFrameTime;
 	QFile *mGameRecordFile;
 	QDataStream mGameRecordStream;

@@ -420,7 +420,10 @@ void PlayingInterface::keyPressEvent(QKeyEvent *ev)
 		QFile replayFile(replayFileName);
 		if (replayFile.open(QIODevice::WriteOnly))
 			replayFile.write(mGameRecord.data());
+		ev->accept();
+		return;
 	}
+	QWidget::keyPressEvent(ev);
 }
 
 void PlayingInterface::onZombieCreated(Zombie *zombie)
