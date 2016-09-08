@@ -7,6 +7,7 @@
 #include "snowpea.h"
 #include "cherrybomb.h"
 #include "repeater.h"
+#include "potatomine.h"
 
 const QMetaObject *GetPlantClassByID(int id);
 

@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     zombies/coneheadzombie.cpp \
     zombies/jackintheboxzombie.cpp \
     plants/repeater.cpp \
-    replayinterface.cpp
+    replayinterface.cpp \
+    plants/potatomine.cpp
 
 HEADERS  += mainwindow.h \
     welcomeinterface.h \
@@ -61,7 +62,8 @@ HEADERS  += mainwindow.h \
     zombies/coneheadzombie.h \
     zombies/jackintheboxzombie.h \
     plants/repeater.h \
-    replayinterface.h
+    replayinterface.h \
+    plants/potatomine.h
 
 FORMS    += \
     welcomeform.ui \

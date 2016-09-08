@@ -16,6 +16,8 @@ const QMetaObject *GetPlantClassByID(int id)
 		return &CherryBomb::staticMetaObject;
 	case 6:
 		return &Repeater::staticMetaObject;
+	case 7:
+		return &PotatoMine::staticMetaObject;
 	default:
 		return 0;
 	}
