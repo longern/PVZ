@@ -450,15 +450,18 @@ void PlayingInterface::onSunshineCreated()
 void PlayingInterface::onSunshineCollected(int index)
 {
 	QList<QVariant> sunshineList = mGameStatus->property("sunshineList").toList();
-	QLabel *sunshineLabel = sunshineList[index].toMap()["img"].value<QPointer<QLabel>>();
-	QPropertyAnimation *ani = new QPropertyAnimation(sunshineLabel, "pos");
-	ani->setDuration(500);
-	ani->setEasingCurve(QEasingCurve::OutCubic);
-	ani->setStartValue(sunshineLabel->pos());
-	ani->setEndValue(QPoint(0, 0));
-	sunshineLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
-	connect(ani, SIGNAL(finished()), sunshineLabel, SLOT(deleteLater()));
-	ani->start();
+	if (!sunshineList[index].toMap()["img"].isNull())
+	{
+		QLabel *sunshineLabel = sunshineList[index].toMap()["img"].value<QPointer<QLabel>>();
+		QPropertyAnimation *ani = new QPropertyAnimation(sunshineLabel, "pos");
+		ani->setDuration(500);
+		ani->setEasingCurve(QEasingCurve::OutCubic);
+		ani->setStartValue(sunshineLabel->pos());
+		ani->setEndValue(QPoint(0, 0));
+		sunshineLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+		connect(ani, SIGNAL(finished()), sunshineLabel, SLOT(deleteLater()));
+		ani->start();
+	}
 	mGameRecordStream << (qint32)mGameStatus->property("currentTime").toLongLong() << quint8('C') << (qint32)index;
 }
 
