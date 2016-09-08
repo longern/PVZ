@@ -55,6 +55,8 @@ PlayingInterface::PlayingInterface(QWidget *parent) :
 	QTimer::singleShot(1, [this]() {
 		if (mGameStatus->property("mode").toString() != "replay")
 			timerId = startTimer(0);
+		if (mGameStatus->property("mode").toString() == "lastStand")
+			mGameStatus->setProperty("sunvalue", 10000);
 	});
 }
 
@@ -93,6 +95,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 
 	QSize mapSize = mGameStatus->property("mapSize").toSize();
 	QSize cellSize(ui->widgetLawnArea->width() / mapSize.width(), ui->widgetLawnArea->height() / mapSize.height());
+	double playSpeed = property("playSpeed").isNull() ? 1. : property("playSpeed").toDouble();
 
 	for (const QVariant &x : mGameStatus->property("plants").toList())
 	{
@@ -118,6 +121,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 			movie->start();
 			plantMovieLabel->setMovie(movie);
 		}
+		plantMovieLabel->movie()->setSpeed(100 * playSpeed);
 	}
 
 	QList<QVariant> zombies = mGameStatus->property("zombies").toList();
@@ -148,7 +152,7 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 			movie->start();
 			zombieMovieLabel->setMovie(movie);
 		}
-		zombieMovieLabel->movie()->setSpeed(zombie->property("frozen").toBool() ? 50 : 100);
+		zombieMovieLabel->movie()->setSpeed((zombie->property("frozen").toBool() ? 50 : 100) * playSpeed);
 		zombieMovieLabel->move(QPoint(ui->widgetLawnArea->x() + zombie->pos().x() * cellSize.width(),
 							   ui->widgetLawnArea->y() + zombie->pos().y() * cellSize.height()) +
 							   zombieAnimationOffset(zombie));
@@ -219,9 +223,10 @@ void PlayingInterface::paintEvent(QPaintEvent *)
 	{
 		QVariant lastPlantTime = lastPlantTimeList[GetPlantClassByID(i)->className()];
 		Plant *plant = dynamic_cast<Plant *>(GetPlantClassByID(i)->newInstance());
+		plant->setPos(QPointF(-1., -1.));
 		if (!lastPlantTime.isNull() && newCurrentTime - lastPlantTime.toLongLong() < plant->cd())
 			findChild<PlantCard *>("widgetPlantCard" + QString::number(i))->setCoolDown(double(newCurrentTime - lastPlantTime.toLongLong()) / plant->cd());
-		else if (plant->cost() > mGameStatus->property("sunvalue").toInt() ||
+		else if (!plant->canPlant(mGameStatus) ||
 				 property("selectedPlant").toInt() == i)
 			findChild<PlantCard *>("widgetPlantCard" + QString::number(i))->setCoolDown(0.);
 		else
@@ -272,6 +277,7 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 		{
 			setProperty("shovelSelected", true);
 			setProperty("selectedPlant", QVariant());
+			ui->labelPlantPreview->hide();
 			ui->labelShovel->hide();
 			setCursor(QCursor(QPixmap(":/interface/images/interface/Shovel.png"), 1, 51));
 		}
@@ -305,7 +311,10 @@ void PlayingInterface::mousePressEvent(QMouseEvent *ev)
 				return;
 			int clickedPlantIndex = p->objectName().mid(15).toInt();
 			if (!property("selectedPlant").isNull() && property("selectedPlant").toInt() == clickedPlantIndex)
+			{
 				setProperty("selectedPlant", QVariant());
+				ui->labelPlantPreview->hide();
+			}
 			else
 			{
 				QPointer<Plant> newPlant = dynamic_cast<Plant *>(GetPlantClassByID(clickedPlantIndex)->newInstance());

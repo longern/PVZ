@@ -38,12 +38,15 @@ void GameLogic::startGame(QObject *root)
 			});
 		}
 
-		for (int i = 0; i < 80; i++)
+		if (root->property("mode").toString() != "lastStand")
 		{
-			addTimeFlag(10000 * i, [this](QObject *root) {
-				QSize mapSize = root->property("mapSize").toSize();
-				createSunshine(root, qrand() / (RAND_MAX - 1.) * mapSize.width() - 0.5);
-			});
+			for (int i = 0; i < 80; i++)
+			{
+				addTimeFlag(10000 * i, [this](QObject *root) {
+					QSize mapSize = root->property("mapSize").toSize();
+					createSunshine(root, qrand() / (RAND_MAX - 1.) * mapSize.width() - 0.5);
+				});
+			}
 		}
 	}
 }

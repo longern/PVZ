@@ -11,6 +11,13 @@ QString SunFlower::imgSrc() const
 	return QStringLiteral(":/plants/images/Plants/SunFlower/SunFlower1.gif");
 }
 
+bool SunFlower::canPlant(QObject *root)
+{
+	if (root->property("mode").toString() == "lastStand")
+		return false;
+	return Plant::canPlant(root);
+}
+
 void SunFlower::onTimeout(QObject *root)
 {
 	qint64 newCurrentTime = root->property("currentTime").toLongLong();

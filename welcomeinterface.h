@@ -26,6 +26,7 @@ private:
 private slots:
 	void on_buttonBeginAdventure_clicked();
 	void on_buttonChangeUser_clicked();
+	void on_buttonBeginSurvival_clicked();
 };
 
 #endif // WELCOMEINTEFACE_H

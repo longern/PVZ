@@ -2,6 +2,7 @@
 #include "welcomeinterface.h"
 #include "playinginterface.h"
 #include "replayinterface.h"
+#include "laststandinterface.h"
 
 MainWindow::MainWindow(QWidget *parent) :
 	QWidget(parent)
@@ -33,6 +34,9 @@ void MainWindow::switchState(MainWindow::GameState state)
 			break;
 		case Replay:
 			mCurrentStateWidget = new ReplayInterface(this);
+			break;
+		case LastStand:
+			mCurrentStateWidget = new LastStandInterface(this);
 			break;
 		default:
 			break;

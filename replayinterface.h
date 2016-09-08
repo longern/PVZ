@@ -3,8 +3,6 @@
 
 #include "playinginterface.h"
 
-class GameLogic;
-
 class ReplayInterface : public QWidget
 {
 	Q_OBJECT

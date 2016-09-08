@@ -19,6 +19,7 @@ ReplayInterface::~ReplayInterface()
 void ReplayInterface::setReplayFile(const QString &fileName)
 {
 	playInterface = new PlayingInterface(this);
+	playInterface->setProperty("playSpeed", replaySpeed);
 	playInterface->gameStatus()->setProperty("mode", "replay");
 	connect(playInterface, SIGNAL(stateSet(MainWindow::GameState)), this, SIGNAL(stateSet(MainWindow::GameState)));
 	playInterface->show();
@@ -63,7 +64,7 @@ void ReplayInterface::timerEvent(QTimerEvent *)
 			break;
 		case 'E':
 			killTimer(timerId);
-			break;
+			return;
 		case 'P':
 			mGameRecordStream >> type >> pos;
 			playInterface->gameLogic()->createPlant(playInterface->gameStatus(), type, pos.x(), pos.y());
@@ -108,4 +109,5 @@ void ReplayInterface::keyPressEvent(QKeyEvent *ev)
 		QWidget::keyPressEvent(ev);
 		break;
 	}
+	playInterface->setProperty("playSpeed", replaySpeed);
 }

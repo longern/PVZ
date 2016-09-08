@@ -12,7 +12,7 @@ public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
 
-	enum GameState { Welcome, Playing, Replay };
+	enum GameState { Welcome, Playing, Replay, LastStand };
 
 public slots:
 	void switchState(MainWindow::GameState state);

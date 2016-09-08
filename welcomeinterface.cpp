@@ -26,3 +26,8 @@ void WelcomeInterface::on_buttonChangeUser_clicked()
 	if(!username.isEmpty())
 		ui->labelUserName->setText(username);
 }
+
+void WelcomeInterface::on_buttonBeginSurvival_clicked()
+{
+	emit stateSet(MainWindow::LastStand);
+}
