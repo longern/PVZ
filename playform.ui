@@ -88,6 +88,9 @@ font-family: &quot;Comic Sans MS&quot;;</string>
      <pointsize>12</pointsize>
     </font>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">* { background-image: url(:/interface/images/interface/Button.png); }
 :pressed { border: none; }</string>

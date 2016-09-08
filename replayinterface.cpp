@@ -7,6 +7,8 @@ ReplayInterface::ReplayInterface(QWidget *parent) : QWidget(parent)
 {
 	mGameRecordFile = nullptr;
 	replaySpeed = 1.;
+	setFocusPolicy(Qt::StrongFocus);
+	setFocus();
 }
 
 ReplayInterface::~ReplayInterface()
@@ -94,11 +96,11 @@ void ReplayInterface::keyPressEvent(QKeyEvent *ev)
 {
 	switch (ev->key())
 	{
-	case Qt::Key_W:
+	case Qt::Key_Up:
 		if (replaySpeed <= 7.)
 			replaySpeed += 1.;
 		break;
-	case Qt::Key_S:
+	case Qt::Key_Down:
 		if (replaySpeed >= 2.)
 			replaySpeed -= 1.;
 		break;
@@ -106,5 +108,4 @@ void ReplayInterface::keyPressEvent(QKeyEvent *ev)
 		QWidget::keyPressEvent(ev);
 		break;
 	}
-	qDebug() << replaySpeed;
 }
