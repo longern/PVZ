@@ -141,7 +141,7 @@ font-family: &quot;Comic Sans MS&quot;;</string>
      <rect>
       <x>84</x>
       <y>10</y>
-      <width>335</width>
+      <width>391</width>
       <height>63</height>
      </rect>
     </property>
@@ -205,11 +205,21 @@ font-family: &quot;Comic Sans MS&quot;;</string>
       </rect>
      </property>
     </widget>
+    <widget class="PlantCard" name="widgetPlantCard7" native="true">
+     <property name="geometry">
+      <rect>
+       <x>344</x>
+       <y>0</y>
+       <width>47</width>
+       <height>63</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="labelShovelBack">
     <property name="geometry">
      <rect>
-      <x>435</x>
+      <x>491</x>
       <y>0</y>
       <width>71</width>
       <height>71</height>
@@ -225,7 +235,7 @@ font-family: &quot;Comic Sans MS&quot;;</string>
    <widget class="QLabel" name="labelShovel">
     <property name="geometry">
      <rect>
-      <x>444</x>
+      <x>500</x>
       <y>6</y>
       <width>53</width>
       <height>57</height>
