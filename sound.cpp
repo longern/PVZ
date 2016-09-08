@@ -1,4 +1,5 @@
 #include "sound.h"
+#include <QSound>
 
 Sound *Sound::sInstance = nullptr;
 
@@ -25,6 +26,11 @@ void Sound::play(const QString &source)
 	if (!source.isEmpty())
 		player->setPlaylist(playlist);
 	player->play();
+}
+
+void Sound::playSound(const QString &source)
+{
+	QSound::play(source);
 }
 
 void Sound::stop()

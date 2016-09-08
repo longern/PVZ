@@ -14,6 +14,7 @@ private:
 public:
 	static Sound *ins();
 	void play(const QString &source = QString());
+	void playSound(const QString &source);
 	void setVolume(int volume);
 
 signals:
